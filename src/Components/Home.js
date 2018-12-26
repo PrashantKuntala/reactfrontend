@@ -42,7 +42,8 @@ const styles = theme => ({
 
 class Home extends Component {
     state = {
-        posts: []
+        posts: [],
+        data : []
     }
 
     componentDidMount() {
@@ -56,9 +57,20 @@ class Home extends Component {
 
         axios.get('http://localhost:8080/reviewSamples')
         .then(res => {
-            console.log(res.data.count);
-            console.log(res.data.samples);
+                // console.log(res.data.count);
+                console.log(res.data.samples);
+
+                // retrieve the sample data
+                let values = res.data.samples.map(sample =>{
+                    return [sample.sampleId,sample.standardGeneName,sample.growthMedia,sample.alias]
+                });
+                let myJsonString = JSON.stringify(values);
+                console.log(myJsonString);
+                this.setState({
+                    data: values
+                });
             });
+            
        
     }
 
@@ -105,7 +117,7 @@ class Home extends Component {
            
             {/* <CustomTableHeader/> */}
             <Typography component="div" className={classes.center}>                
-                <Datatable/>
+                <Datatable data={this.state.data}/>
                 {/* {postList} */}
             </Typography>
             </div>
