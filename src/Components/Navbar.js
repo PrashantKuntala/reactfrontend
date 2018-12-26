@@ -41,7 +41,7 @@ const Navbar = (props) => {
            YEP
           </Typography>
           <Button color="inherit" component={Link} to="/about"> About </Button>
-          <Button color="inherit" component={Link} to="/contact">FAQ</Button>
+          <Button color="inherit" component={Link} to="/faq">FAQ</Button>
           <Button color="inherit" component={NavLink} to="/downloads">Downloads</Button>
         </Toolbar>
       </AppBar>

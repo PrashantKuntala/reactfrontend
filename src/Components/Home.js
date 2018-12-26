@@ -14,6 +14,10 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import Button from '@material-ui/core/Button';
 
+// Mui Datatable
+import Datatable from './Datatable';
+// import CustomTableHeader from './CustomTableHeader';
+
 const styles = theme => ({
     root: {
         ...theme.mixins.gutters(),
@@ -23,8 +27,9 @@ const styles = theme => ({
     },
     center : {
         margin: 'auto',
-        width: '50%',
-        padding: 10,
+        width: '80%',
+        padding: 10
+        
       },
     card: {
         maxWidth: 700,
@@ -48,6 +53,13 @@ class Home extends Component {
                     posts: res.data.slice(0, 10)
                 });
             })
+
+        axios.get('http://localhost:8080/reviewSamples')
+        .then(res => {
+            console.log(res.data.count);
+            console.log(res.data.samples);
+            });
+       
     }
 
     render() {
@@ -89,9 +101,15 @@ class Home extends Component {
             );
 
         return (
-            <Typography component="div" className={classes.center}>
-                {postList}
+            <div>
+           
+            {/* <CustomTableHeader/> */}
+            <Typography component="div" className={classes.center}>                
+                <Datatable/>
+                {/* {postList} */}
             </Typography>
+            </div>
+           
         )
 
     }

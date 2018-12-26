@@ -9,7 +9,6 @@ import FAQ from './Components/Faq';
 import Downloads from './Components/Downloads';
 import Post from './Components/Post';
 
-
 // import Search from './Components/Search';
 // simple click function to check the api
 //  function handleClick(e) {
@@ -44,12 +43,12 @@ class App extends Component {
         </button>
       )} /> */}
       {/* <Search dataSource={dataSource} /> */}
-   
+      
       
           <Switch>
             <Route exact path='/' component={Home}/>
             <Route path='/about' component={About} />
-            <Route path='/contact' component={FAQ} />
+            <Route path='/faq' component={FAQ} />
             <Route path='/downloads' component={Downloads} />
             <Route path="/:post_id" component={Post} />
           </Switch>         

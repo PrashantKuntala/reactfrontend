@@ -34,7 +34,7 @@ const FAQ = (props) =>{
     <div>
       <Paper className={classes.root} elevation={1}>
         <Typography variant="h5" component="h4" gutterBottom={true}>
-          FAQ
+          Frequently Asked Questions
         </Typography>
         <Typography component="p" variant="body1" gutterBottom={true}>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati non blanditiis voluptatem, eius est reprehenderit pariatur doloremque vero deserunt, dolores quis cum, ex eaque doloribus qui quam laboriosam alias saepe.
