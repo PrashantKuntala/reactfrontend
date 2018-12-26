@@ -1,37 +1,9 @@
 import React from 'react';
 import { Link, NavLink, withRouter} from 'react-router-dom';
 
-
-// const Navbar =(props) =>{
-//     // console.log(props);
-    
-//     // setTimeout(() => {
-//     //     props.history.push('/about')
-//     // },2000);
-
-//     return (
-       
-//        <nav className="nav-wrapper red darken-3">
-//            <div className="container">
-//                <Link className="brand-logo" to="/">Poke'Times</Link>
-//                 <ul className="right">
-//                     <li><Link to="/">Home</Link></li>
-//                     <li><NavLink to="/about">About</NavLink></li>
-//                     <li><NavLink to="/contact">Contact</NavLink></li>
-//                 </ul>
-//            </div>
-//        </nav>
-//     )
-// }
-
-// // withRouter is a higherorder component that is supercharging the Navbar and
-// // applied the props that router send to this component.
-// export default withRouter(Navbar);
-
-
-
-import PropTypes from 'prop-types';
+// material-ui imports
 import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -39,12 +11,16 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+
+// each of the object below is a class that is references below within classNames
+// these styles are injected using the HOC provided by mui
 const styles = {
   root: {
     flexGrow: 1,
   },
   grow: {
     flexGrow: 1,
+    textDecoration: 'none'
   },
   menuButton: {
     marginLeft: -12,
@@ -52,27 +28,29 @@ const styles = {
   },
 };
 
-function ButtonAppBar(props) {
+const Navbar = (props) => {
   const { classes } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar variant="dense">
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
-            News
+          <Typography variant="h6" color="inherit" className={classes.grow} component={Link} to="/">            
+           YEP
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" component={Link} to="/about"> About </Button>
+          <Button color="inherit" component={Link} to="/contact">FAQ</Button>
+          <Button color="inherit" component={NavLink} to="/downloads">Downloads</Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
 
-ButtonAppBar.propTypes = {
+Navbar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRouter(withStyles(styles)(ButtonAppBar));
+export default withRouter(withStyles(styles)(Navbar));
