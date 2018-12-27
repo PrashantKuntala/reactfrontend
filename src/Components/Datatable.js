@@ -4,9 +4,9 @@ import MUIDataTable from "mui-datatables";
 
 class Datatable extends React.Component {
     handleRowClick = (rowData,rowMeta) => {
-       console.log("row clicked \n" + rowData );
-       console.log(rowMeta.dataIndex); // dataIndex starts with 0, but it doesnt matter in case of YEP samples. 
-       console.log(rowMeta.rowIndex);
+       console.log("row clicked \n" + rowData[1] );
+      //  console.log(rowMeta.dataIndex); // dataIndex starts with 0, but it doesnt matter in case of YEP samples. 
+      //  console.log(rowMeta.rowIndex);
     //    rendering the sample Component without redirecting to a new tab.
     //    this.props.history.push('/'+ rowMeta.dataIndex)
     
@@ -15,7 +15,7 @@ class Datatable extends React.Component {
     //  inbuilt before compiling and building the final production page.
     //  since you have access to the window javascript global you can do this.
     //    console.log(window);
-    let url = "http://localhost:3000/" + rowMeta.dataIndex;
+    let url = "http://localhost:3000/" + rowData[1];
     let win = window.open(url, '_blank');
     win.focus();             
     }
@@ -45,18 +45,20 @@ class Datatable extends React.Component {
             name: "Alias",
             options: {
              filter: false,
-             sort: true,         
+             sort: true,
+             display:false         
             }
             },
+            
         ];
 
     const data = this.props.data;
 
     const options = {
       filterType: "multiselect",
-      responsive: "scroll",
+      responsive: "stacked",
       selectableRows: false,
-      rowsPerPage: 15,
+      rowsPerPage: 10,
       rowsPerPageOptions:[5,10,15,20,50,100],
       onRowClick: this.handleRowClick,
       print:false,
