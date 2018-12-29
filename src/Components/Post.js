@@ -17,7 +17,7 @@ import LaunchIcon from '@material-ui/icons/Launch';
 import TrackHubIcon from '@material-ui/icons/AssessmentOutlined';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import Drawer from '@material-ui/core/Drawer';
-import DownloadIcon from '@material-ui/icons/SaveAlt';
+import DownloadIcon from '@material-ui/icons/GetAppOutlined';
 
 // remove these after you figured out the sample information
 import List from '@material-ui/core/List';
@@ -26,6 +26,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+
+// For Replicate tabs
+import ReplicateTabs from './ReplicateTabs';
 
 const styles = theme => ({
     root: {
@@ -72,7 +75,8 @@ class Post extends Component{
     state ={
         post : null,
         proteinName :  null,
-        drawer :false
+        drawer :false,
+        samples : null
     }
 
     // you would access the route parameter here and then maybe fetch stuff
@@ -85,11 +89,13 @@ class Post extends Component{
         let id = this.props.match.params.post_id;
         axios.get('http://localhost:8080/reviewSamples/'+id)
             .then(res =>{
-                console.log(res.data.sample[0]);
-                
+                console.log("SampleData");                
+                console.log(res.data.sample);
+             
                 this.setState({
                     post : res.data.sample[0],
-                    proteinName: id
+                    proteinName: id,
+                    samples: res.data.sample
                 })
                 console.log(this.props.match);        
                 console.log(this.props.history.location);
@@ -169,6 +175,7 @@ toggleDrawer = (option) => () => {
 
         const post = this.state.post ? (
             <div>
+                
                 <Card className={classes.card}>
 
                         <CardContent >
@@ -211,7 +218,7 @@ toggleDrawer = (option) => () => {
                                     </Button>
                                 </Grid>
                                 <Grid item sm={"auto"}>
-                                <Button size="small" color="primary" onClick={this.handleDownloadClick}>
+                                <Button size="small" color="primary"  onClick={this.handleDownloadClick}>
                                     <DownloadIcon className={classes.leftIcon}/>
                                     Download
                                     </Button>
@@ -234,6 +241,7 @@ toggleDrawer = (option) => () => {
                 </Card>
             
             {/* Second Section with Tabs */}
+            <ReplicateTabs samples={this.state.samples}/>
             
             </div>
         ) : (
