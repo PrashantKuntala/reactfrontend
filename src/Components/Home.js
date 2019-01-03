@@ -20,8 +20,8 @@ const styles = theme => ({
     },
     center : {
         margin: 'auto',
-        width: '50%',
-        padding: 20,        
+        width: '70%',
+        padding: 20,    
       },
     card: {
         maxWidth: 700,
