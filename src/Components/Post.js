@@ -246,8 +246,10 @@ toggleDrawer = (option) => () => {
             
             </div>
         ) : (
-            <Typography component="p" variant="subtitle1" className={classes.center}>
-                    Fetching All Replicates
+            <Typography component="div" className={classes.center}>                   
+                    <Typography component="p" variant="subtitle1" >
+                        Fetching Samples
+                    </Typography>
                     <LinearProgress variant="query" />
             </Typography>
         )
