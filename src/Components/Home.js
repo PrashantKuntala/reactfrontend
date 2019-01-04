@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 // Mui Datatable
 import Datatable from './Datatable';
@@ -30,6 +31,9 @@ const styles = theme => ({
     avatar: {
         backgroundColor: red[500],
     },
+    progress: {
+        margin: theme.spacing.unit * 2,
+      },
 });
 
 class Home extends Component {
@@ -66,15 +70,19 @@ class Home extends Component {
         const samplesTable = data.length ? (   
             <Datatable data={this.state.data}/>
             ) : (
-                <Typography component="p" variant="subtitle1" className={classes.center}>
-                    Fetching Samples ...
+                <Typography component="div" className={classes.center}>                   
+                    <Typography component="p" variant="subtitle1" >
+                        Fetching Samples
+                    </Typography>
+                    <LinearProgress variant="query" />
                 </Typography>
             );
 
         return (
             <div className={classes.center}>
             {samplesTable}
-            {/* <CustomTableHeader/> */}            
+            {/* <CustomTableHeader/> */}   
+            {/* <LinearProgress variant="query" /> */}
             </div>
            
         )

@@ -18,6 +18,7 @@ import TrackHubIcon from '@material-ui/icons/AssessmentOutlined';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import Drawer from '@material-ui/core/Drawer';
 import DownloadIcon from '@material-ui/icons/GetAppOutlined';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 // remove these after you figured out the sample information
 import List from '@material-ui/core/List';
@@ -246,7 +247,8 @@ toggleDrawer = (option) => () => {
             </div>
         ) : (
             <Typography component="p" variant="subtitle1" className={classes.center}>
-                    Loading Posts ...
+                    Fetching All Replicates
+                    <LinearProgress variant="query" />
             </Typography>
         )
         return (
