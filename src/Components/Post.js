@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 // material-ui imports
 import PropTypes from 'prop-types';
@@ -48,7 +47,7 @@ const styles = theme => ({
       },
     center : {
         margin: 'auto',
-        width: '70%',
+        width: '80%',
         padding: 10,
       },
     card: {

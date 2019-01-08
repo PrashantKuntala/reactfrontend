@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
@@ -18,6 +19,10 @@ import Divider from '@material-ui/core/Divider';
 import GrowthMediaIcon from '@material-ui/icons/GroupWorkOutlined';
 import Tooltip from '@material-ui/core/Tooltip';
 import LineStyle from '@material-ui/icons/LineStyle';
+
+// additional components
+import CodingSection from './CodingSection';
+
 
 function TabContainer(props) {
   return (
@@ -50,6 +55,17 @@ chip: {
     maxWidth: 500,
     fontSize:12
   },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+  center : {
+    margin: 'auto',
+    width: '100%',
+
+  },
   
   
 });
@@ -80,6 +96,19 @@ class ScrollableTabsButtonAuto extends React.Component {
     });
 
     let tabContent = this.props.samples.map(sample=>{
+      if (sample.isMergedReplicate){
+        console.log("Found merged Replicate");        
+      } 
+      else{
+        console.log("Not Merged");
+        
+      }
+      // The components that form the replicate sections
+      return (
+       <div className={classes.center}>
+        <CodingSection/>       
+       </div>
+      )
 
     });
 
@@ -117,7 +146,7 @@ class ScrollableTabsButtonAuto extends React.Component {
 
           {/* below is a short circuit operation : https://stackoverflow.com/questions/40682064/what-does-operator-indicate-with-this-props-children-react-cloneelemen  */}
         {value === 0 && <TabContainer>
-          <Grid container spacing={0} alignItems={"center"} className={classes.chipArray}>                
+          {/* <Grid container spacing={0} alignItems={"center"} className={classes.chipArray}>                
                 <Grid item>
                 <Tooltip title="Assay Type" classes={{ tooltip: classes.customWidth }}>
                   <Chip 
@@ -150,10 +179,9 @@ class ScrollableTabsButtonAuto extends React.Component {
                 </Grid>
                 
           </Grid>
-    
-      <CardContent>
-        
-      </CardContent>
+          <br/> */}
+          {tabContent[1]}    
+
       {/* <CardActions>
         <Button size="small" variant="outlined">Learn More</Button>
       </CardActions> */}
@@ -163,7 +191,7 @@ class ScrollableTabsButtonAuto extends React.Component {
 
             {value === 1 && <TabContainer>
 
-<Grid container spacing={0} alignItems={"center"} className={classes.chipArray}>                
+{/* <Grid container spacing={0} alignItems={"center"} className={classes.chipArray}>                
       <Grid item>
       <Tooltip title="Assay-type" classes={{ tooltip: classes.customWidth }}>
         <Chip 
@@ -198,28 +226,10 @@ class ScrollableTabsButtonAuto extends React.Component {
         </Tooltip>
       </Grid>
       
-</Grid>
-    
-    
+</Grid> */}
 
-    <CardContent>
-<Typography className={classes.title} color="textSecondary" gutterBottom>
-Word of the Day
-</Typography>
-<Typography variant="h5" component="h2">
-be
-
-lent
-</Typography>
-<Typography className={classes.pos} color="textSecondary">
-adjective
-</Typography>
-<Typography component="p">
-well meaning and kindly.
-<br />
-{'"a benevolent smile"'}
-</Typography>
-</CardContent>
+{tabContent[0]}
+  
      
 
 </TabContainer>}
