@@ -87,15 +87,16 @@ class Post extends Component{
         console.log(this.props);
         
         let id = this.props.match.params.post_id;
+        
         axios.get('http://localhost:8080/reviewSamples/'+id)
             .then(res =>{
                 console.log("SampleData");                
-                console.log(res.data.sample);
+                console.log(res.data.samples);
              
                 this.setState({
-                    post : res.data.sample[0],
+                    post : res.data.samples[0],
                     proteinName: id,
-                    samples: res.data.sample
+                    samples: res.data.samples
                 })
                 console.log(this.props.match);        
                 console.log(this.props.history.location);

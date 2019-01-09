@@ -96,17 +96,18 @@ class ScrollableTabsButtonAuto extends React.Component {
     });
 
     let tabContent = this.props.samples.map(sample=>{
-      if (sample.isMergedReplicate){
-        console.log("Found merged Replicate");        
-      } 
-      else{
-        console.log("Not Merged");
-        
-      }
+      // To check if the sample is a merged replicate
+      // if (sample.isMergedReplicate){
+      //   console.log("Found merged Replicate");        
+      // } 
+      // else{
+      //   console.log("Not Merged");        
+      // }
+
       // The components that form the replicate sections
       return (
        <div className={classes.center}>
-        <CodingSection/>       
+        <CodingSection images={sample.codingImages[0]}/>       
        </div>
       )
 
@@ -180,7 +181,7 @@ class ScrollableTabsButtonAuto extends React.Component {
                 
           </Grid>
           <br/> */}
-          {tabContent[1]}    
+          {tabContent[0]}    
 
       {/* <CardActions>
         <Button size="small" variant="outlined">Learn More</Button>

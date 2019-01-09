@@ -30,17 +30,17 @@ const styles = {
     //   border: '2px solid yellow'
   },
   colorBar:{
-    height: 442,
+    height: 443,
     width: 20,
-    marginTop:9,
-    marginLeft: -8   
+    marginTop:11,
+    marginLeft: -6   
   },
   mainContainer:{
       overflow: 'scroll'
   },
   composite: {
     width: 170,
-    marginLeft: -10,
+    marginLeft: -4,
     marginBottom: -8,
     marginTop: 5
   },
@@ -51,7 +51,8 @@ const styles = {
 
 const CodingSection = (props) => {
   const { classes } = props;
-
+  const imageUrl = props.images;
+    
   return (
     <div className={classes.card}>
       <CardContent>
@@ -74,20 +75,20 @@ const CodingSection = (props) => {
                 spacing={0}
                 wrap="nowrap">
                     <Grid item >
-                    <img src="http://pluto.vmhost.psu.edu:8080/data/AllFeatures/8602_Tbp1_All_Features.png" alt="All Features Heatmap"
+                    <img src={imageUrl.allFeaturesHeatmap} alt="All Features Heatmap"
                     className={classes.featureHeatmap}/>
                     </Grid>
                     <Grid item >
-                        <img src="https://via.placeholder.com/30x500" 
+                        <img src={imageUrl.allFeaturesColorbar}
                         alt="Bound Features Colorbar"
                         className={classes.colorBar}/>
                     </Grid>
                     <Grid item >
-                    <img src="http://pluto.vmhost.psu.edu:8080/data/BoundFeatures/8602_Tbp1_Bound_Features.png" alt="Bound Features Heatmap"
+                    <img src={imageUrl.boundFeaturesHeatmap} alt="Bound Features Heatmap"
                         className={classes.featureHeatmap}/>
                     </Grid>
                     <Grid item >
-                        <img src="https://via.placeholder.com/30x500" 
+                        <img src={imageUrl.boundFeaturesColorbar}
                         alt="Bound Features Colorbar"
                         className={classes.colorBar}/>
                     </Grid>
@@ -115,13 +116,13 @@ const CodingSection = (props) => {
                     alignItems="center"
                     spacing={0}>
                         <Grid item >
-                            <img src="http://pluto.vmhost.psu.edu:8080/data/NFR/8602_Tbp1_NFR_Composite.png" 
-                                 alt="Bound Features Colorbar"
+                            <img src={imageUrl.nfrComposite} 
+                                 alt="NFR Composite"
                                  className={classes.composite}/>
                         </Grid>
                         <Grid item >
-                            <img src="http://pluto.vmhost.psu.edu:8080/data/NFR/8602_Tbp1_NFR_Heatmap.png" 
-                                    alt="Bound Features Colorbar"
+                            <img src={imageUrl.nfrHeatmap}
+                                    alt="NFR Heatmap"
                                     className={classes.regionHeatmap}/>
                         </Grid>                        
                     </Grid>
@@ -135,13 +136,13 @@ const CodingSection = (props) => {
                         alignItems="center"
                         spacing={0}>
                             <Grid item >
-                                <img src="http://pluto.vmhost.psu.edu:8080/data/TSS/8602_Tbp1_TSS_Composite.png" 
-                                    alt="Bound Features Colorbar"
+                                <img src={imageUrl.tssComposite}
+                                    alt="TSS Composite"
                                     className={classes.composite}/>
                             </Grid>
                             <Grid item >
-                                <img src="http://pluto.vmhost.psu.edu:8080/data/TSS/8602_Tbp1_TSS_Heatmap.png" 
-                                        alt="Bound Features Colorbar"
+                                <img src={imageUrl.tssHeatmap} 
+                                        alt="TSS Heatmap"
                                         className={classes.regionHeatmap}/>
                             </Grid>                        
                         </Grid>
@@ -155,13 +156,13 @@ const CodingSection = (props) => {
                         alignItems="center"
                         spacing={0}>
                             <Grid item >
-                                <img src="http://pluto.vmhost.psu.edu:8080/data/TES/8602_Tbp1_TES_Composite.png" 
-                                    alt="Bound Features Colorbar"
+                                <img src={imageUrl.tesComposite} 
+                                    alt="TES Composite"
                                     className={classes.composite}/>
                             </Grid>
                             <Grid item >
-                                <img src="http://pluto.vmhost.psu.edu:8080/data/TES/8602_Tbp1_TES_Heatmap.png" 
-                                        alt="Bound Features Colorbar"
+                                <img src={imageUrl.tesHeatmap} 
+                                        alt="TES Heatmap"
                                         className={classes.regionHeatmap}/>
                             </Grid>                        
                     </Grid>
