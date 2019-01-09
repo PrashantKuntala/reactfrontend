@@ -11,6 +11,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
+import deepOrange from '@material-ui/core/colors/deepOrange';
 import Chip from '@material-ui/core/Chip';
 import WhatShot from '@material-ui/icons/Whatshot';
 import FlashOn from '@material-ui/icons/FlashOn';
@@ -19,6 +20,8 @@ import Divider from '@material-ui/core/Divider';
 import GrowthMediaIcon from '@material-ui/icons/GroupWorkOutlined';
 import Tooltip from '@material-ui/core/Tooltip';
 import LineStyle from '@material-ui/icons/LineStyle';
+import Badge from '@material-ui/core/Badge';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 // additional components
 import CodingSection from './CodingSection';
@@ -66,6 +69,9 @@ chip: {
     width: '100%',
 
   },
+  treatmentBadge: {
+    marginLeft: 20,
+  },
   
   
 });
@@ -88,8 +94,21 @@ class ScrollableTabsButtonAuto extends React.Component {
     console.log(this.props.samples.length);
     let i = 0;
     let tabList = this.props.samples.map(sample=>{
+
+      // Setting the badge based on Whether it is heatshock or YPD
+      if(sample.treatments === "Normal"){
+        var badge =  <Badge badgeContent={sample.treatments.charAt(0)} color="primary" className={classes.treatmentBadge}></Badge>
+      }
+      else{
+        var badge =  <Badge badgeContent={sample.treatments.charAt(0)} color="primary" className={classes.treatmentBadge}></Badge>
+      }
+     
             i = i + 1;
-            let tabname = "Replicate "+ i.toString();
+            let tabname = <Typography>
+             { "Replicate "+ i.toString()} 
+             {badge}           
+            </Typography>;
+
       return (
         <Tab label={tabname} key={i} />
       )
