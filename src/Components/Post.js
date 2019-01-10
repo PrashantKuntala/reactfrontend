@@ -19,13 +19,8 @@ import Drawer from '@material-ui/core/Drawer';
 import DownloadIcon from '@material-ui/icons/GetAppOutlined';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-// remove these after you figured out the sample information
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+// For Sample Meta information Drawer
+import SampleStats from './SampleStats';
 
 // For Replicate tabs
 import ReplicateTabs from './ReplicateTabs';
@@ -65,6 +60,7 @@ const styles = theme => ({
       },      
       fullList: {
         width: 'auto',
+        height: 900,
         // backgroundColor: "#a0a0a0",
         // height: 500
       },
@@ -75,7 +71,7 @@ class Post extends Component{
     state ={
         post : null,
         proteinName :  null,
-        drawer :false,
+        drawer :true,
         samples : null
     }
 
@@ -149,30 +145,7 @@ toggleDrawer = (option) => () => {
         console.log("Rendering POST.js ");
         
         const { classes } = this.props;
-
-        // content that you want to show case inside the drawer, you can create smaller components to display this data, if you like a list or a table of cards, whatever. The anchor on drawer determines if it is going to be big or small, maybe you can adjust the width, choose one for now.
-        const fullList = (
-            <div className={classes.fullList}>
-              <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                  <ListItem button key={text}>
-                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                ))}
-              </List>
-              <Divider />
-              <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                  <ListItem button key={text}>
-                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                ))}
-              </List>
-            </div>
-          );
-
+        
 
         const post = this.state.post ? (
             <div>
@@ -228,14 +201,13 @@ toggleDrawer = (option) => () => {
                         </CardActions>
 
                         {/* Drawer to show all the individual sample stats */}
-                        <Drawer anchor="bottom" open={this.state.drawer} onClose={this.toggleDrawer(false)}>
+                        <Drawer anchor="top" open={this.state.drawer} onClose={this.toggleDrawer(false)}>
                             <div
                                 tabIndex={0}
-                                role="button"
-                                onClick={this.toggleDrawer( false)}
-                                onKeyDown={this.toggleDrawer( false)}
+                                role="button" 
                             >
-                                {fullList}
+                                {/* Sending the toggleDrawer function as a prop that is called inside sampleStats.js */}
+                                <SampleStats stats={this.state.samples} handleBack={this.toggleDrawer(false)}/>
                             </div>
                         </Drawer>
 

@@ -97,10 +97,10 @@ class ScrollableTabsButtonAuto extends React.Component {
 
       // Setting the badge based on Whether it is heatshock or YPD
       if(sample.treatments === "Normal"){
-        var badge =  <Badge badgeContent={sample.treatments.charAt(0)} color="primary" className={classes.treatmentBadge}></Badge>
+        var badge =  <Badge badgeContent={sample.treatments.charAt(0)} color="primary" className={classes.treatmentBadge}> </Badge>
       }
       else{
-        var badge =  <Badge badgeContent={sample.treatments.charAt(0)} color="primary" className={classes.treatmentBadge}></Badge>
+        badge =  <Badge badgeContent={sample.treatments.charAt(0)} color="primary" className={classes.treatmentBadge}> </Badge>
       }
      
             i = i + 1;
