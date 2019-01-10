@@ -50,8 +50,8 @@ const styles = theme => ({
       },
       tableHeader:{
         color: '#fff',
-        backgroundColor: "#607d8b",
-        border: `2px solid #607d8b`,
+        backgroundColor: "#5c6bc0",
+        border: `2px solid #5c6bc0`,
       },
       publicColor:{
         color: "#43a047",
@@ -61,7 +61,6 @@ const styles = theme => ({
       },
          
 });
-
 
 
 class SampleStats extends React.Component {
@@ -99,16 +98,14 @@ class SampleStats extends React.Component {
         if(res.statusText === "OK"){
             console.log("Sucess", updateArray[0]);
             value ?  
-            this.props.enqueueSnackbar('Published ' + replicateId,
-            {  variant: 'success', 
-                autoHideDuration: 2500,                
-            }): 
-            this.props.enqueueSnackbar('Replicate ' + replicateId + ' is Private', { variant: 'info', autoHideDuration: 2500, }); 
+            this.props.enqueueSnackbar(replicateId + ' is Published', { variant: 'success'}): 
+            this.props.enqueueSnackbar(replicateId + ' is not Published', { variant: 'info'}); 
             this.setState({
                 stats : newStats
             })       
         }
         else{
+            // wondering when this would happen ?
             console.log("Failed", updateArray[0]);
             console.log(res); 
             this.props.enqueueSnackbar('ERROR : Check log in the console !', { variant: 'error', autoHideDuration: 2000, });                               

@@ -74,7 +74,7 @@ class Post extends Component{
     state ={
         post : null,
         proteinName :  null,
-        drawer :true,
+        drawer :false,
         samples : null
     }
 
@@ -210,10 +210,10 @@ toggleDrawer = (option) => () => {
                                 role="button" 
                             >
                                 {/* Sending the toggleDrawer function as a prop that is called inside sampleStats.js */}
-                                <SnackbarProvider maxSnack={3} anchorOrigin={{
+                                <SnackbarProvider maxSnack={1} anchorOrigin={{
                                     vertical: 'top',
                                     horizontal: 'right',
-                                }}>
+                                }} hideIconVariant="true">
                                     <SampleStats stats={this.state.samples} handleBack={this.toggleDrawer(false)}/>
                                 </SnackbarProvider>
                             </div>
