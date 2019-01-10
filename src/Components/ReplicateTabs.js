@@ -5,23 +5,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import deepOrange from '@material-ui/core/colors/deepOrange';
-import Chip from '@material-ui/core/Chip';
-import WhatShot from '@material-ui/icons/Whatshot';
-import FlashOn from '@material-ui/icons/FlashOn';
-import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import GrowthMediaIcon from '@material-ui/icons/GroupWorkOutlined';
-import Tooltip from '@material-ui/core/Tooltip';
-import LineStyle from '@material-ui/icons/LineStyle';
 import Badge from '@material-ui/core/Badge';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 
 // additional components
 import CodingSection from './CodingSection';

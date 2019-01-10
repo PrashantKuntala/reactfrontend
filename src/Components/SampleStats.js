@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,18 +11,19 @@ import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import TrackHubIcon from '@material-ui/icons/AssessmentOutlined';
 import CardActions from '@material-ui/core/CardActions';
-import PublicIcon from '@material-ui/icons/PublicOutlined';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import Button from '@material-ui/core/Button';
 import LaunchIcon from '@material-ui/icons/Launch';
 import { Card } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
-import Switch from '@material-ui/core/Switch';
+import UnPublishIcon from '@material-ui/icons/Lock';
+import PublishIcon from '@material-ui/icons/LockOpen';
+
+import { withSnackbar } from 'notistack';
+
 
 const styles = theme => ({
     fullList: {
@@ -62,41 +65,69 @@ const styles = theme => ({
 
 
 class SampleStats extends React.Component {
-  state = { 
-    publicCheckedList: [],
-  };
+  state = {
+    stats : this.props.stats
+  }
 
-  handleProtocolLink = () => {
+//   Might remove this link and move it to the faq page
+ handleProtocolLink = () => {
     let url = "https://www.ncbi.nlm.nih.gov/pubmed/30030442"
     let prtWin = window.open(url, '_blank');
     prtWin.focus();
   }
 
-  handleSamplePublication = () => {
-    console.log("Handling sample Publication");
+  handleSamplePublication = (id,value,replicateId) => () => {
+    // The patchURL should be coming from a config file.
+    var patchURL = "http://localhost:8080/reviewSamples/"+id;
+    var updateArray = [{"propName": "isPublic","value" : value}]
+    // console.log(patchURL);
+    // console.log(updateArray);
+
+    // changing the state to show feedback beside the replicate 
+    const newStats = this.state.stats.map(item => {
+        
+            if(item._id === id){
+                item.isPublic = value
+            }
+            return item
+        
+    });
+    console.log(newStats);
     
+
+    axios.patch(patchURL,updateArray).then(res =>{        
+        if(res.statusText === "OK"){
+            console.log("Sucess", updateArray[0]);
+            value ?  
+            this.props.enqueueSnackbar('Published ' + replicateId,
+            {  variant: 'success', 
+                autoHideDuration: 2500,                
+            }): 
+            this.props.enqueueSnackbar('Replicate ' + replicateId + ' is Private', { variant: 'info', autoHideDuration: 2500, }); 
+            this.setState({
+                stats : newStats
+            })       
+        }
+        else{
+            console.log("Failed", updateArray[0]);
+            console.log(res); 
+            this.props.enqueueSnackbar('ERROR : Check log in the console !', { variant: 'error', autoHideDuration: 2000, });                               
+        }         
+    })
   };
+  
 
   render() {
     const { classes } = this.props;
-    // you can use Lodash filter function to filter out
-    // This can be simplified even more if the model is updated to contain stats, codingImages, nonCodingImages and MemeImages
-    // https://stackoverflow.com/questions/35182904/filtering-array-of-objects-with-lodash-based-on-property-value
+    const {stats} = this.state;
+   
     var id = 0;
-    const sampleStats = this.props.stats.map(item =>{
+    const sampleStats = stats.map(item =>{
         id = id + 1;
 
         // Status of the sample
-        const sampleStatus = item.isPublic ?  
-        <Tooltip title="Public Sample" aria-label="Public Sample">
-            <PublicIcon className={classes.publicColor}/> 
-        </Tooltip> : 
-        <Tooltip title="Private Sample" aria-label="Private Sample">
-            <PublicIcon className={classes.privateColor}/>
-        </Tooltip>;
-
-        // Showing treatments
-        const sampleTreatment = item.treatments === 'Normal' ? <PublicIcon className={classes.publicColor}/> : <PublicIcon className={classes.privateColor}/>;
+        const sampleStatus = item.isPublic ?        
+            <PublishIcon className={classes.publicColor} onClick={this.handleSamplePublication(item._id,false,item.sampleId)}/> : <UnPublishIcon className={classes.privateColor} onClick={this.handleSamplePublication(item._id,true,item.sampleId)}/>;         
         
         return (
             <Grid item key={id}>
@@ -210,14 +241,7 @@ class SampleStats extends React.Component {
                                   
                                     </TableBody>
                                 </Table>
-                            </Grid>                            
-                            <Grid item >
-                                <Tooltip title="Publish Sample" aria-label="Publish Sample">
-                                    <Button size="small" color="primary" onClick={this.handleSamplePublication} >
-                                        Publish
-                                    </Button> 
-                                </Tooltip>
-                            </Grid>  
+                            </Grid> 
                         </Grid>
              
                 </CardContent>
@@ -269,4 +293,4 @@ SampleStats.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SampleStats);
+export default withStyles(styles)(withSnackbar(SampleStats));

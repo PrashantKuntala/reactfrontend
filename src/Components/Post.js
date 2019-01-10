@@ -25,6 +25,9 @@ import SampleStats from './SampleStats';
 // For Replicate tabs
 import ReplicateTabs from './ReplicateTabs';
 
+// For SampleStats Notifications
+import { SnackbarProvider } from 'notistack';
+
 const styles = theme => ({
     root: {
         ...theme.mixins.gutters(),
@@ -207,7 +210,12 @@ toggleDrawer = (option) => () => {
                                 role="button" 
                             >
                                 {/* Sending the toggleDrawer function as a prop that is called inside sampleStats.js */}
-                                <SampleStats stats={this.state.samples} handleBack={this.toggleDrawer(false)}/>
+                                <SnackbarProvider maxSnack={3} anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}>
+                                    <SampleStats stats={this.state.samples} handleBack={this.toggleDrawer(false)}/>
+                                </SnackbarProvider>
                             </div>
                         </Drawer>
 
