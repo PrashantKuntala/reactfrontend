@@ -40,33 +40,39 @@ const styles = {
 
 class NonCodingSection extends React.Component {
 
-  // value is used to keep the tab active
+  // set the imageUrl to the props and when tab is changed , update the state to subsector images  
   state = {
-    selectedTab: 0,
+    selectedTab: 0,    
+    imageUrl : this.props.images
   };
 
   handleChange = (event, selectedTab) => {
-    this.setState({ selectedTab });
-    // console.log("Event for the coding section tab " );    
-    // console.log(event);
+    
+    selectedTab === 0 ? this.setState({
+        selectedTab: selectedTab,
+        imageUrl: this.props.images
+    }) : 
+    this.setState({
+        selectedTab: selectedTab,
+        imageUrl: {cutHeatmap:this.props.images.cutEnrichedHeatmap,sutHeatmap:this.props.images.sutEnrichedHeatmap,xutHeatmap:this.props.images.xutEnrichedHeatmap,trnaHeatmap:this.props.images.trnaHeatmap,xelementHeatmap:this.props.images.xelementHeatmap,centromereHeatmap:this.props.images.centromereHeatmap,arsHeatmap:this.props.images.arsHeatmap}
+    })
     
   };
 
   render() {
   const { classes } = this.props;
-  const imageUrl = this.props.images;
+  const { imageUrl } = this.state;
   const { selectedTab } = this.state;
-
+ 
   return (
     <div className={classes.card}>     
         {/* Header */}
         <Typography variant="overline" component="h5" gutterBottom className={classes.sectionTitle}>
           Non - Coding Features
         </Typography>
-
               
         <Paper> 
-        
+            
         {/* overriding the css using the css api for the tabs, 
         removed the scrollbar that appears otherwise 
         */}  
@@ -86,146 +92,74 @@ class NonCodingSection extends React.Component {
 
           <Divider/> 
 
-
           <CardContent className={classes.sectionHolder}>
-          {/* below is a short circuit operation : https://stackoverflow.com/questions/40682064/what-does-operator-indicate-with-this-props-children-react-cloneelemen  */}
-          {selectedTab === 0 && 
-                    
+        
             <Typography component="div" >
-                {/* Chexmix Heatmap Section */}
-                <Grid container spacing={16} direction="column" wrap="nowrap" 
-                justify="flex-start" className={classes.mainContainer}>
+                    {/* Chexmix and Subsector Heatmap Section */}
+                    <Grid container spacing={16} direction="column" wrap="nowrap" 
+                    justify="flex-start" className={classes.mainContainer}>
 
-                        {/* Buffer Section */}
-                        <Grid item ></Grid>
+                            {/* Buffer Section */}
+                            <Grid item ></Grid>
 
-                        {/* Top Section */}
-                        <Grid item className={classes.topSection}>
-                            <Grid container 
-                            direction="row"
-                            justify="space-evenly"
-                            alignItems="center"
-                            spacing={0}
-                            >
-                                <Grid item >
-                                <img src={imageUrl.cutHeatmap} alt="CUT Heatmap"
-                                className={classes.featureHeatmap}/>
-                                </Grid>
-                                <Grid item >
-                                <img src={imageUrl.sutHeatmap} alt="SUT Heatmap"
-                                className={classes.featureHeatmap}/>
-                                </Grid>
-                                <Grid item >
-                                <img src={imageUrl.xutHeatmap} alt="XUT Heatmap"
-                                className={classes.featureHeatmap}/>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        
-                        {/* Buffer Section */}
-                        <Grid item >
-                            <Divider/>
-                        </Grid>
-                        
-                        {/* Bottom Section */}
-                        <Grid item className={classes.bottomSection}>
-
-                            <Grid container 
+                            {/* Top Section */}
+                            <Grid item className={classes.topSection}>
+                                <Grid container 
                                 direction="row"
                                 justify="space-evenly"
                                 alignItems="center"
                                 spacing={0}
-                               >
+                                >
                                     <Grid item >
-                                        <img src={imageUrl.trnaHeatmap} alt="TRNA Heatmap"
-                                        className={classes.featureHeatmap}/>
-                                    </Grid>
-                                    <Grid item >
-                                        <img src={imageUrl.xelementHeatmap} alt="Xelement Heatmap"
-                                        className={classes.featureHeatmap}/>
+                                    <img src={imageUrl.cutHeatmap} alt="CUT Heatmap"
+                                    className={classes.featureHeatmap}/>
                                     </Grid>
                                     <Grid item >
-                                        <img src={imageUrl.centromereHeatmap} alt="Centromere Heatmap"
-                                        className={classes.featureHeatmap}/>
+                                    <img src={imageUrl.sutHeatmap} alt="SUT Heatmap"
+                                    className={classes.featureHeatmap}/>
                                     </Grid>
-                                        <img src={imageUrl.arsHeatmap} alt="ARS Heatmap"
-                                        className={classes.featureHeatmap}/>
+                                    <Grid item >
+                                    <img src={imageUrl.xutHeatmap} alt="XUT Heatmap"
+                                    className={classes.featureHeatmap}/>
                                     </Grid>
+                                </Grid>
                             </Grid>
-                                         
-                </Grid>  
+                            
+                            {/* Buffer Section */}
+                            <Grid item >
+                                <Divider/>
+                            </Grid>
+                            
+                            {/* Bottom Section */}
+                            <Grid item className={classes.bottomSection}>
+
+                                <Grid container 
+                                    direction="row"
+                                    justify="space-evenly"
+                                    alignItems="center"
+                                    spacing={0}
+                                >
+                                        <Grid item >
+                                            <img src={imageUrl.trnaHeatmap} alt="TRNA Heatmap"
+                                            className={classes.featureHeatmap}/>
+                                        </Grid>
+                                        <Grid item >
+                                            <img src={imageUrl.xelementHeatmap} alt="Xelement Heatmap"
+                                            className={classes.featureHeatmap}/>
+                                        </Grid>
+                                        <Grid item >
+                                            <img src={imageUrl.centromereHeatmap} alt="Centromere Heatmap"
+                                            className={classes.featureHeatmap}/>
+                                        </Grid>
+                                        <Grid item >
+                                            <img src={imageUrl.arsHeatmap} alt="ARS Heatmap"
+                                            className={classes.featureHeatmap}/>
+                                        </Grid>
+                                </Grid>
+                            </Grid>                 
+                    </Grid>  
             </Typography>
-                
-          }
-
-          {selectedTab === 1 && 
-                    
-            <Typography component="div" >
-                {/* Subsector Heatmap Section */}
-                <Grid container spacing={16} direction="column" wrap="nowrap" 
-                justify="flex-start" className={classes.mainContainer}>
-
-                        {/* Buffer Section */}
-                        <Grid item ></Grid>
-
-                        {/* Top Section */}
-                        <Grid item className={classes.topSection}>
-                            <Grid container 
-                            direction="row"
-                            justify="space-evenly"
-                            alignItems="center"
-                            spacing={0}
-                            >
-                                <Grid item >
-                                <img src={imageUrl.cutEnrichedHeatmap} alt="enriched CUT Heatmap"
-                                className={classes.featureHeatmap}/>
-                                </Grid>
-                                <Grid item >
-                                <img src={imageUrl.sutEnrichedHeatmap} alt="enriched SUT Heatmap"
-                                className={classes.featureHeatmap}/>
-                                </Grid>
-                                <Grid item >
-                                <img src={imageUrl.xutEnrichedHeatmap} alt="enriched XUT Heatmap"
-                                className={classes.featureHeatmap}/>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        
-                        {/* Buffer Section */}
-                        <Grid item >
-                            <Divider/>
-                        </Grid>
-                        
-                        {/* Bottom Section */}
-                        <Grid item className={classes.bottomSection}>
-
-                            <Grid container 
-                                direction="row"
-                                justify="space-evenly"
-                                alignItems="center"
-                                spacing={0}
-                               >
-                                    <Grid item >
-                                        <img src={imageUrl.trnaHeatmap} alt="TRNA Heatmap"
-                                        className={classes.featureHeatmap}/>
-                                    </Grid>
-                                    <Grid item >
-                                        <img src={imageUrl.xelementHeatmap} alt="Xelement Heatmap"
-                                        className={classes.featureHeatmap}/>
-                                    </Grid>
-                                    <Grid item >
-                                        <img src={imageUrl.centromereHeatmap} alt="Centromere Heatmap"
-                                        className={classes.featureHeatmap}/>
-                                    </Grid>
-                                        <img src={imageUrl.arsHeatmap} alt="ARS Heatmap"
-                                        className={classes.featureHeatmap}/>
-                                    </Grid>
-                            </Grid>
-                                         
-                </Grid>  
-            </Typography>
-            
-          }
+         
           </CardContent>
           
       </Paper> 

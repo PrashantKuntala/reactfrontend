@@ -74,18 +74,27 @@ class CodingSection extends React.Component {
   // value is used to keep the tab active
   state = {
     selectedTab: 0,
+    imageUrl : this.props.images
   };
 
+ // Should be another way to do this , but for now this works
+// How about sending the props themselves in the compressed way so that these prop changes can be made easy. 
   handleChange = (event, selectedTab) => {
-    this.setState({ selectedTab });
-    // console.log("Event for the coding section tab " );    
-    // console.log(event);
+    selectedTab === 0 ? this.setState({
+        selectedTab: selectedTab,
+        imageUrl: this.props.images
+    }) : 
+    this.setState({
+        selectedTab: selectedTab,
+        imageUrl: {allFeaturesHeatmap:this.props.images.allFeaturesHeatmap,allFeaturesColorbar:this.props.images.allFeaturesColorbar,boundFeaturesHeatmap:this.props.images.enrichedFeaturesHeatmap,boundFeaturesColorbar:this.props.images.enrichedFeaturesColorbar,
+        nfrComposite:this.props.images.nfrEnrichedComposite,nfrHeatmap:this.props.images.nfrEnrichedHeatmap,tssComposite:this.props.images.tssEnrichedComposite,tssHeatmap:this.props.images.tssEnrichedHeatmap,tesHeatmap:this.props.images.tesEnrichedHeatmap,tesComposite:this.props.images.tesEnrichedComposite}
+    })
     
   };
 
   render() {
   const { classes } = this.props;
-  const imageUrl = this.props.images;
+  const { imageUrl } = this.state;
   const { selectedTab } = this.state;
 
   return (
@@ -119,10 +128,7 @@ class CodingSection extends React.Component {
 
 
           <CardContent className={classes.sectionHolder}>
-          {/* below is a short circuit operation : https://stackoverflow.com/questions/40682064/what-does-operator-indicate-with-this-props-children-react-cloneelemen  */}
-          {selectedTab === 0 && 
-                    
-            <Typography component="div" >
+          <Typography component="div" >
                 {/* Chexmix Heatmap Section */}
                 <Grid container spacing={16} direction="row" wrap="nowrap" 
                 justify="flex-start" className={classes.mainContainer}>
@@ -237,128 +243,7 @@ class CodingSection extends React.Component {
                     </Grid>                    
                 </Grid>  
             </Typography>
-                
-          }
 
-          {selectedTab === 1 && 
-                    
-            <Typography component="div" >
-                {/* Subsector Heatmap Section */}
-                <Grid container spacing={16} direction="row" wrap="nowrap" 
-                justify="flex-start" className={classes.mainContainer}>
-
-                        {/* Buffer Section */}
-                        <Grid item ></Grid>
-
-                        {/* Left Section */}
-                        <Grid item className={classes.leftSection}>
-                            <Grid container 
-                            direction="row"
-                            justify="space-evenly"
-                            alignItems="center"
-                            spacing={0}
-                            wrap="nowrap">
-                                <Grid item >
-                                <img src={imageUrl.allFeaturesHeatmap} alt="All Features Heatmap"
-                                className={classes.featureHeatmap}/>
-                                </Grid>
-                                <Grid item >
-                                    <img src={imageUrl.allFeaturesColorbar}
-                                    alt="All Features Colorbar"
-                                    className={classes.colorBar}/>
-                                </Grid>
-                                <Grid item >
-                                <img src={imageUrl.enrichedFeaturesHeatmap} alt="Enriched Features Heatmap"
-                                    className={classes.featureHeatmap}/>
-                                </Grid>
-                                <Grid item >
-                                    <img src={imageUrl.enrichedFeaturesColorbar}
-                                    alt="Enriched Features Colorbar"
-                                    className={classes.enrichedcolorBar}/>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        
-                        {/* Buffer Section */}
-                        <Grid item ></Grid>
-                        
-                        {/* Right Section */}
-                        <Grid item className={classes.rightSection}>
-                    
-                            <Grid container 
-                                    direction="row"
-                                    justify="space-evenly"
-                                    alignItems="center"
-                                    spacing={8}
-                                    wrap="nowrap">
-
-                                {/* NFR */}
-                                <Grid item >
-                                    <Grid container 
-                                    direction="column"
-                                    justify="flex-start"
-                                    alignItems="center"
-                                    spacing={0}>
-                                        <Grid item >
-                                            <img src={imageUrl.nfrEnrichedComposite} 
-                                                alt="NFR Composite"
-                                                className={classes.composite}/>
-                                        </Grid>
-                                        <Grid item >
-                                            <img src={imageUrl.nfrEnrichedHeatmap}
-                                                    alt="NFR Heatmap"
-                                                    className={classes.regionHeatmap}/>
-                                        </Grid>                        
-                                    </Grid>
-                                </Grid>
-
-                                {/* TSS */}
-                                <Grid item >
-                                    <Grid container 
-                                        direction="column"
-                                        justify="flex-start"
-                                        alignItems="center"
-                                        spacing={0}>
-                                            <Grid item >
-                                                <img src={imageUrl.tssEnrichedComposite}
-                                                    alt="TSS Composite"
-                                                    className={classes.composite}/>
-                                            </Grid>
-                                            <Grid item >
-                                                <img src={imageUrl.tssEnrichedHeatmap} 
-                                                        alt="TSS Heatmap"
-                                                        className={classes.regionHeatmap}/>
-                                            </Grid>                        
-                                        </Grid>
-                                </Grid>
-
-                                {/* TES */}
-                                <Grid item >
-                                    <Grid container 
-                                        direction="column"
-                                        justify="flex-start"
-                                        alignItems="center"
-                                        spacing={0}>
-                                            <Grid item >
-                                                <img src={imageUrl.tesEnrichedComposite} 
-                                                    alt="TES Composite"
-                                                    className={classes.composite}/>
-                                            </Grid>
-                                            <Grid item >
-                                                <img src={imageUrl.tesEnrichedHeatmap} 
-                                                        alt="TES Heatmap"
-                                                        className={classes.regionHeatmap}/>
-                                            </Grid>                        
-                                    </Grid>
-                                </Grid>
-
-                            </Grid>
-
-                        </Grid>                    
-                </Grid>  
-            </Typography>
-            
-          }
           </CardContent>
           
       </Paper> 

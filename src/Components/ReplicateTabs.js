@@ -79,25 +79,22 @@ class ReplicateTabs extends React.Component {
 
       // Subsections per sample or replicate.
       return (  
-       <Grid container spacing={24} direction="column" wrap="nowrap" 
-       justify="flex-start" className={classes.mainContainer}> 
-
-          <Grid item >
-            <CodingSection images={sample.codingImages[0]}/>
-          </Grid>
-          <Grid item >
-          <NonCodingSection images={sample.nonCodingImages[0]}/> 
-          </Grid>
-        </Grid>
-      )
+        <Grid container spacing={24} direction="column" wrap="nowrap" 
+        justify="flex-start" className={classes.mainContainer}> 
+ 
+           <Grid item >
+             <CodingSection images={sample.codingImages[0]}/>
+           </Grid>
+           <Grid item >
+           <NonCodingSection images={sample.nonCodingImages[0]}/> 
+           </Grid>           
+         </Grid>
+       )
 
     });
-    console.log("TabContent structure");
-    console.log(tabContent);
-    
-    
 
-    return (
+
+  return (
       <div className={classes.root}>
 
         <Paper className={classes.card}> 
