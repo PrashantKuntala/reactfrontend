@@ -32,32 +32,19 @@ const styles = theme => ({
 });
 
 
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-
-class ScrollableTabsButtonAuto extends React.Component {
-    // value is used to keep the tab active
+class ReplicateTabs extends React.Component {
+ // selected Replicate
   state = {
-    value: 0,
+    replicate: 0,
   };
 
-  handleChange = (event, value) => {
-    this.setState({ value });
+  handleChange = (event, replicate) => {
+    this.setState({ replicate });
   };
 
   render() {
     const { classes } = this.props;
-    const { value } = this.state;
+    const { replicate } = this.state;
     
     console.log("inside ReplicateTables");    
     console.log(this.props.samples.length);
@@ -77,8 +64,7 @@ class ScrollableTabsButtonAuto extends React.Component {
       i = i + 1;
       let tabname = <Typography>
         {badge} 
-        { "Replicate "+ i.toString()} 
-                  
+        { "Replicate "+ i.toString()}                  
       </Typography>;
 
       return (
@@ -86,19 +72,21 @@ class ScrollableTabsButtonAuto extends React.Component {
       )
     });
 
+
     let tabContent = this.props.samples.map(sample=>{   
 
       // Subsections per sample or replicate.
-      return (
+      return (        
        <div>
-        <CodingSection images={sample.codingImages[0]}/>
-        <br/>
-        <br/>
-        <CodingSection images={sample.codingImages[0]}/>  
+        <CodingSection images={sample.codingImages[0]}/>        
        </div>
       )
 
     });
+    console.log("TabContent structure");
+    console.log(tabContent);
+    
+    
 
     return (
       <div className={classes.root}>
@@ -110,7 +98,7 @@ class ScrollableTabsButtonAuto extends React.Component {
         */}  
 
           <Tabs
-            value={value}
+            value={replicate}
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
@@ -126,16 +114,18 @@ class ScrollableTabsButtonAuto extends React.Component {
 
           <CardContent className={classes.sectionHolder}>
           {/* below is a short circuit operation : https://stackoverflow.com/questions/40682064/what-does-operator-indicate-with-this-props-children-react-cloneelemen  */}
-          {value === 0 && 
-            <TabContainer>         
+
+          {/* Need to dynamically allocate tabContents for each value, value and re[] */}
+          {replicate === 0 && 
+            <Typography component="div" style={{ padding: 8 * 3 }}>
               {tabContent[0]} 
-            </TabContainer>
+            </Typography>
           }
 
-          {value === 1 && 
-            <TabContainer>         
+          {replicate === 1 && 
+            <Typography component="div" style={{ padding: 8 * 3 }}>
               {tabContent[1]} 
-            </TabContainer>
+            </Typography>
           }
           </CardContent>
           
@@ -145,8 +135,8 @@ class ScrollableTabsButtonAuto extends React.Component {
   }
 }
 
-ScrollableTabsButtonAuto.propTypes = {
+ReplicateTabs.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ScrollableTabsButtonAuto);
+export default withStyles(styles)(ReplicateTabs);

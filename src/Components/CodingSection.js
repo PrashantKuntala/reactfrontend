@@ -4,8 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 
+//  for Chexmix and Subsector tabs
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 const styles = theme=> ({
   card: {
@@ -35,6 +39,12 @@ const styles = theme=> ({
     marginTop:11,
     marginLeft: -6   
   },
+  enrichedcolorBar:{
+    height: 443,
+    width: 20,
+    marginTop:11,
+    marginLeft: -12.5 
+  },
   mainContainer:{
       overflow: 'scroll'
   },
@@ -49,139 +59,313 @@ const styles = theme=> ({
   },
   sectionTitle:{
       fontSize: 18,
-  }
+  },
+  scroller:{
+    overflow: "hidden"
+  },
+  chexmixContent:{
+      border : "2px solid red"
+  },  
+  
 });
 
-const CodingSection = (props) => {
-  const { classes } = props;
-  const imageUrl = props.images;
+class CodingSection extends React.Component {
+
+  // value is used to keep the tab active
+  state = {
+    selectedTab: 0,
+  };
+
+  handleChange = (event, selectedTab) => {
+    this.setState({ selectedTab });
+    // console.log("Event for the coding section tab " );    
+    // console.log(event);
     
+  };
+
+  render() {
+  const { classes } = this.props;
+  const imageUrl = this.props.images;
+  const { selectedTab } = this.state;
+
   return (
     <div className={classes.card}>     
         {/* Header */}
         <Typography variant="overline" component="h5" gutterBottom className={classes.sectionTitle}>
           Coding Features
         </Typography>
-      
-        <Card>
-        <CardContent>
-            {/* Main Container*/}
-            <Grid container spacing={24} direction="row" wrap="nowrap" justify="flex-start" className={classes.mainContainer}>
 
-                    {/* Buffer Section */}
-                    <Grid item ></Grid>
+              
+        <Paper> 
+        
+        {/* overriding the css using the css api for the tabs, 
+        removed the scrollbar that appears otherwise 
+        */}  
 
-                    {/* Left Section */}
-                    <Grid item className={classes.leftSection}>
-                        <Grid container 
-                        direction="row"
-                        justify="space-evenly"
-                        alignItems="center"
-                        spacing={0}
-                        wrap="nowrap">
-                            <Grid item >
-                            <img src={imageUrl.allFeaturesHeatmap} alt="All Features Heatmap"
-                            className={classes.featureHeatmap}/>
-                            </Grid>
-                            <Grid item >
-                                <img src={imageUrl.allFeaturesColorbar}
-                                alt="Bound Features Colorbar"
-                                className={classes.colorBar}/>
-                            </Grid>
-                            <Grid item >
-                            <img src={imageUrl.boundFeaturesHeatmap} alt="Bound Features Heatmap"
-                                className={classes.featureHeatmap}/>
-                            </Grid>
-                            <Grid item >
-                                <img src={imageUrl.boundFeaturesColorbar}
-                                alt="Bound Features Colorbar"
-                                className={classes.colorBar}/>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+          <Tabs
+            value={selectedTab}
+            onChange={this.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            scrollable={true}
+            scrollButtons="on"            
+            classes={{scrollable:classes.scroller}}            
+          >    
+            <Tab label="Chexmix" key={0} />  
+            <Tab label="Subsector" key={1} />
+          </Tabs>
+
+          <Divider/> 
+
+
+          <CardContent className={classes.sectionHolder}>
+          {/* below is a short circuit operation : https://stackoverflow.com/questions/40682064/what-does-operator-indicate-with-this-props-children-react-cloneelemen  */}
+          {selectedTab === 0 && 
                     
-                    {/* Buffer Section */}
-                    <Grid item ></Grid>
-                    
-                    {/* Right Section */}
-                    <Grid item className={classes.rightSection}>
-                
-                    <Grid container 
-                    direction="row"
-                    justify="space-evenly"
-                    alignItems="center"
-                    spacing={8}
-                    wrap="nowrap">
+            <Typography component="div" >
+                {/* Chexmix Heatmap Section */}
+                <Grid container spacing={16} direction="row" wrap="nowrap" 
+                justify="flex-start" className={classes.mainContainer}>
 
-                        {/* NFR */}
-                        <Grid item >
+                        {/* Buffer Section */}
+                        <Grid item ></Grid>
+
+                        {/* Left Section */}
+                        <Grid item className={classes.leftSection}>
                             <Grid container 
-                            direction="column"
-                            justify="flex-start"
+                            direction="row"
+                            justify="space-evenly"
                             alignItems="center"
-                            spacing={0}>
+                            spacing={0}
+                            wrap="nowrap">
                                 <Grid item >
-                                    <img src={imageUrl.nfrComposite} 
-                                        alt="NFR Composite"
-                                        className={classes.composite}/>
+                                <img src={imageUrl.allFeaturesHeatmap} alt="All Features Heatmap"
+                                className={classes.featureHeatmap}/>
                                 </Grid>
                                 <Grid item >
-                                    <img src={imageUrl.nfrHeatmap}
-                                            alt="NFR Heatmap"
-                                            className={classes.regionHeatmap}/>
-                                </Grid>                        
+                                    <img src={imageUrl.allFeaturesColorbar}
+                                    alt="Bound Features Colorbar"
+                                    className={classes.colorBar}/>
+                                </Grid>
+                                <Grid item >
+                                <img src={imageUrl.boundFeaturesHeatmap} alt="Bound Features Heatmap"
+                                    className={classes.featureHeatmap}/>
+                                </Grid>
+                                <Grid item >
+                                    <img src={imageUrl.boundFeaturesColorbar}
+                                    alt="Bound Features Colorbar"
+                                    className={classes.colorBar}/>
+                                </Grid>
                             </Grid>
                         </Grid>
+                        
+                        {/* Buffer Section */}
+                        <Grid item ></Grid>
+                        
+                        {/* Right Section */}
+                        <Grid item className={classes.rightSection}>
+                    
+                        <Grid container 
+                                direction="row"
+                                justify="space-evenly"
+                                alignItems="center"
+                                spacing={8}
+                                wrap="nowrap">
 
-                        {/* TSS */}
-                        <Grid item >
-                            <Grid container 
+                            {/* NFR */}
+                            <Grid item >
+                                <Grid container 
                                 direction="column"
                                 justify="flex-start"
                                 alignItems="center"
                                 spacing={0}>
                                     <Grid item >
-                                        <img src={imageUrl.tssComposite}
-                                            alt="TSS Composite"
+                                        <img src={imageUrl.nfrComposite} 
+                                            alt="NFR Composite"
                                             className={classes.composite}/>
                                     </Grid>
                                     <Grid item >
-                                        <img src={imageUrl.tssHeatmap} 
-                                                alt="TSS Heatmap"
+                                        <img src={imageUrl.nfrHeatmap}
+                                                alt="NFR Heatmap"
                                                 className={classes.regionHeatmap}/>
                                     </Grid>                        
                                 </Grid>
+                            </Grid>
+
+                            {/* TSS */}
+                            <Grid item >
+                                <Grid container 
+                                    direction="column"
+                                    justify="flex-start"
+                                    alignItems="center"
+                                    spacing={0}>
+                                        <Grid item >
+                                            <img src={imageUrl.tssComposite}
+                                                alt="TSS Composite"
+                                                className={classes.composite}/>
+                                        </Grid>
+                                        <Grid item >
+                                            <img src={imageUrl.tssHeatmap} 
+                                                    alt="TSS Heatmap"
+                                                    className={classes.regionHeatmap}/>
+                                        </Grid>                        
+                                    </Grid>
+                            </Grid>
+
+                            {/* TES */}
+                            <Grid item >
+                                <Grid container 
+                                    direction="column"
+                                    justify="flex-start"
+                                    alignItems="center"
+                                    spacing={0}>
+                                        <Grid item >
+                                            <img src={imageUrl.tesComposite} 
+                                                alt="TES Composite"
+                                                className={classes.composite}/>
+                                        </Grid>
+                                        <Grid item >
+                                            <img src={imageUrl.tesHeatmap} 
+                                                    alt="TES Heatmap"
+                                                    className={classes.regionHeatmap}/>
+                                        </Grid>                        
+                                </Grid>
+                            </Grid>
+
                         </Grid>
 
-                        {/* TES */}
-                        <Grid item >
+                    </Grid>                    
+                </Grid>  
+            </Typography>
+                
+          }
+
+          {selectedTab === 1 && 
+                    
+            <Typography component="div" >
+                {/* Subsector Heatmap Section */}
+                <Grid container spacing={16} direction="row" wrap="nowrap" 
+                justify="flex-start" className={classes.mainContainer}>
+
+                        {/* Buffer Section */}
+                        <Grid item ></Grid>
+
+                        {/* Left Section */}
+                        <Grid item className={classes.leftSection}>
                             <Grid container 
-                                direction="column"
-                                justify="flex-start"
-                                alignItems="center"
-                                spacing={0}>
-                                    <Grid item >
-                                        <img src={imageUrl.tesComposite} 
-                                            alt="TES Composite"
-                                            className={classes.composite}/>
-                                    </Grid>
-                                    <Grid item >
-                                        <img src={imageUrl.tesHeatmap} 
-                                                alt="TES Heatmap"
-                                                className={classes.regionHeatmap}/>
-                                    </Grid>                        
+                            direction="row"
+                            justify="space-evenly"
+                            alignItems="center"
+                            spacing={0}
+                            wrap="nowrap">
+                                <Grid item >
+                                <img src={imageUrl.allFeaturesHeatmap} alt="All Features Heatmap"
+                                className={classes.featureHeatmap}/>
+                                </Grid>
+                                <Grid item >
+                                    <img src={imageUrl.allFeaturesColorbar}
+                                    alt="All Features Colorbar"
+                                    className={classes.colorBar}/>
+                                </Grid>
+                                <Grid item >
+                                <img src={imageUrl.enrichedFeaturesHeatmap} alt="Enriched Features Heatmap"
+                                    className={classes.featureHeatmap}/>
+                                </Grid>
+                                <Grid item >
+                                    <img src={imageUrl.enrichedFeaturesColorbar}
+                                    alt="Enriched Features Colorbar"
+                                    className={classes.enrichedcolorBar}/>
+                                </Grid>
                             </Grid>
                         </Grid>
+                        
+                        {/* Buffer Section */}
+                        <Grid item ></Grid>
+                        
+                        {/* Right Section */}
+                        <Grid item className={classes.rightSection}>
+                    
+                            <Grid container 
+                                    direction="row"
+                                    justify="space-evenly"
+                                    alignItems="center"
+                                    spacing={8}
+                                    wrap="nowrap">
 
-                    </Grid>
+                                {/* NFR */}
+                                <Grid item >
+                                    <Grid container 
+                                    direction="column"
+                                    justify="flex-start"
+                                    alignItems="center"
+                                    spacing={0}>
+                                        <Grid item >
+                                            <img src={imageUrl.nfrEnrichedComposite} 
+                                                alt="NFR Composite"
+                                                className={classes.composite}/>
+                                        </Grid>
+                                        <Grid item >
+                                            <img src={imageUrl.nfrEnrichedHeatmap}
+                                                    alt="NFR Heatmap"
+                                                    className={classes.regionHeatmap}/>
+                                        </Grid>                        
+                                    </Grid>
+                                </Grid>
 
-                </Grid>
+                                {/* TSS */}
+                                <Grid item >
+                                    <Grid container 
+                                        direction="column"
+                                        justify="flex-start"
+                                        alignItems="center"
+                                        spacing={0}>
+                                            <Grid item >
+                                                <img src={imageUrl.tssEnrichedComposite}
+                                                    alt="TSS Composite"
+                                                    className={classes.composite}/>
+                                            </Grid>
+                                            <Grid item >
+                                                <img src={imageUrl.tssEnrichedHeatmap} 
+                                                        alt="TSS Heatmap"
+                                                        className={classes.regionHeatmap}/>
+                                            </Grid>                        
+                                        </Grid>
+                                </Grid>
+
+                                {/* TES */}
+                                <Grid item >
+                                    <Grid container 
+                                        direction="column"
+                                        justify="flex-start"
+                                        alignItems="center"
+                                        spacing={0}>
+                                            <Grid item >
+                                                <img src={imageUrl.tesEnrichedComposite} 
+                                                    alt="TES Composite"
+                                                    className={classes.composite}/>
+                                            </Grid>
+                                            <Grid item >
+                                                <img src={imageUrl.tesEnrichedHeatmap} 
+                                                        alt="TES Heatmap"
+                                                        className={classes.regionHeatmap}/>
+                                            </Grid>                        
+                                    </Grid>
+                                </Grid>
+
+                            </Grid>
+
+                        </Grid>                    
+                </Grid>  
+            </Typography>
             
-            </Grid>
-            </CardContent> 
-        </Card>
+          }
+          </CardContent>
+          
+      </Paper> 
+
     </div>
   );
+  }
 }
 
 CodingSection.propTypes = {
