@@ -11,6 +11,8 @@ import CardContent from '@material-ui/core/CardContent';
 
 // additional components
 import CodingSection from './CodingSection';
+import NonCodingSection from './NonCodingSection';
+import { Grid } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -76,10 +78,17 @@ class ReplicateTabs extends React.Component {
     let tabContent = this.props.samples.map(sample=>{   
 
       // Subsections per sample or replicate.
-      return (        
-       <div>
-        <CodingSection images={sample.codingImages[0]}/>        
-       </div>
+      return (  
+       <Grid container spacing={24} direction="column" wrap="nowrap" 
+       justify="flex-start" className={classes.mainContainer}> 
+
+          <Grid item >
+            <CodingSection images={sample.codingImages[0]}/>
+          </Grid>
+          <Grid item >
+          <NonCodingSection images={sample.nonCodingImages[0]}/> 
+          </Grid>
+        </Grid>
       )
 
     });
