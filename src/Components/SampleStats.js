@@ -28,9 +28,7 @@ import { withSnackbar } from 'notistack';
 const styles = theme => ({
     fullList: {
         width: 'auto',
-        height: 900,        
-        // backgroundColor: "#a0a0a0",
-        // height: 500
+        height: 900, 
       },
       table: {
        width: "auto",       
@@ -42,7 +40,8 @@ const styles = theme => ({
       },
       statsContainer:{
         padding: `${theme.spacing.unit}px ${theme.spacing.unit * 5}px`,
-        marginTop: 2
+        marginTop: 2,
+        background: "#fafafa",
       },      
       rightIcon: {
         marginLeft: theme.spacing.unit,
@@ -99,7 +98,7 @@ class SampleStats extends React.Component {
             console.log("Sucess", updateArray[0]);
             value ?  
             this.props.enqueueSnackbar(replicateId + ' is Published', { variant: 'success'}): 
-            this.props.enqueueSnackbar(replicateId + ' is not Published', { variant: 'info'}); 
+            this.props.enqueueSnackbar(replicateId + ' is Private', { variant: 'info'}); 
             this.setState({
                 stats : newStats
             })       

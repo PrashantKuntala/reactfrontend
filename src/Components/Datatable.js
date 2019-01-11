@@ -56,7 +56,7 @@ class Datatable extends React.Component {
 
     const options = {
       filterType: "multiselect",
-      responsive: "stacked",
+      responsive: "scroll",
       selectableRows: false,
       rowsPerPage: 10,
       rowsPerPageOptions:[5,10,15,20,50,100],

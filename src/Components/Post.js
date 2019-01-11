@@ -8,7 +8,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
-import blue from '@material-ui/core/colors/blue';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
@@ -33,16 +32,9 @@ const styles = theme => ({
         ...theme.mixins.gutters(),
         paddingTop: theme.spacing.unit * 2,
         paddingBottom: theme.spacing.unit * 2,
-        margin: 12
+        margin: 12,        
     },
-    gridRoot: {
-        flexGrow: 1,
-      },
-      paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-      },
+      
     center : {
         margin: 'auto',
         width: '80%',
@@ -51,28 +43,17 @@ const styles = theme => ({
     card: {
         margin: 20
     },   
-      iconHover: {        
-        color:blue[500],
-        '&:hover': {
-          color: blue[800],
-        },
-      },      
+            
       leftIcon: {
         marginRight: theme.spacing.unit,
         fontSize: 20,
-      },      
-      fullList: {
-        width: 'auto',
-        height: 900,
-        // backgroundColor: "#a0a0a0",
-        // height: 500
-      },
+      }
     
 });
 
 class Post extends Component{
     state ={
-        post : null,
+        post : null, // setting it to one sample 
         proteinName :  null,
         drawer :false,
         samples : null
@@ -148,13 +129,14 @@ toggleDrawer = (option) => () => {
         console.log("Rendering POST.js ");
         
         const { classes } = this.props;
-        
+        // Retrieve only the header information, might need to change the sample model for that.
+        // Then send all the samples to replicate tabs as props which uses map to create each individual
+        // sections, which are themselves individual components
 
         const post = this.state.post ? (
             <div>
-                
+                {/* Header Section */}
                 <Card className={classes.card}>
-
                         <CardContent >
                             <Grid container spacing={8} alignItems={"center"} >
                                 <Grid item sm={"auto"}>
@@ -174,9 +156,9 @@ toggleDrawer = (option) => () => {
                                 </Grid>
                             </Grid>                          
                         </CardContent>
-
                         <Divider variant="middle"/>
 
+                        {/* Action toolbar */}
                         <CardActions>
                             <Grid container alignItems={"center"} justify={"space-between"}>
                                 <Grid item sm={"auto"}>
@@ -205,20 +187,14 @@ toggleDrawer = (option) => () => {
 
                         {/* Drawer to show all the individual sample stats */}
                         <Drawer anchor="top" open={this.state.drawer} onClose={this.toggleDrawer(false)}>
-                            <div
-                                tabIndex={0}
-                                role="button" 
-                            >
+                            <div tabIndex={0} role="button">
                                 {/* Sending the toggleDrawer function as a prop that is called inside sampleStats.js */}
-                                <SnackbarProvider maxSnack={1} anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }} hideIconVariant="true">
+                                <SnackbarProvider maxSnack={1} 
+                                                  anchorOrigin={{vertical: 'top',horizontal:'right', }} hideIconVariant={true}>
                                     <SampleStats stats={this.state.samples} handleBack={this.toggleDrawer(false)}/>
                                 </SnackbarProvider>
                             </div>
                         </Drawer>
-
                 </Card>
             
             {/* Second Section with Tabs */}
@@ -226,6 +202,7 @@ toggleDrawer = (option) => () => {
             
             </div>
         ) : (
+            // not so clear , need to use promises to show a loading and a message incase there are no public samples.
             <Typography component="div" className={classes.center}>                   
                     <Typography component="p" variant="subtitle1" >
                         Fetching Samples

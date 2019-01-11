@@ -5,32 +5,18 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 // Mui Datatable
 import Datatable from './Datatable';
-// import CustomTableHeader from './CustomTableHeader';
+
 
 const styles = theme => ({
-    root: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-        margin: 12
-    },
     center : {
         margin: 'auto',
         width: '70%',
         padding: 20,    
       },
-    card: {
-        maxWidth: 700,
-        margin: 20
-    },   
-    avatar: {
-        backgroundColor: red[500],
-    },
     progress: {
         margin: theme.spacing.unit * 2,
       },
