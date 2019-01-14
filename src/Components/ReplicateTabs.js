@@ -12,6 +12,7 @@ import CardContent from '@material-ui/core/CardContent';
 // additional components
 import CodingSection from './CodingSection';
 import NonCodingSection from './NonCodingSection';
+import MotifSection from './MotifSection';
 import { Grid } from '@material-ui/core';
 
 const styles = theme => ({
@@ -77,7 +78,7 @@ class ReplicateTabs extends React.Component {
         <Tab label={tabname} key={i} />
       )
     });
-
+    
 
   return (
       <div className={classes.root}>
@@ -105,7 +106,7 @@ class ReplicateTabs extends React.Component {
           {/* Main Content */}
           <CardContent className={classes.sectionHolder}> 
 
-            <Typography component="div" style={{ padding: 8 * 3 }}>
+            <Typography component="div" style={{ padding: 8}}>
               <Grid container spacing={24} direction="column" wrap="nowrap" 
                     justify="flex-start" className={classes.mainContainer}> 
                 {/* Subsections for each replicate */}
@@ -113,8 +114,11 @@ class ReplicateTabs extends React.Component {
                   <CodingSection images={this.state.samples.codingImages[0]}/>
                 </Grid>
                 <Grid item >
-                <NonCodingSection images={this.state.samples.nonCodingImages[0]}/> 
-                </Grid>           
+                  <NonCodingSection images={this.state.samples.nonCodingImages[0]}/> 
+                </Grid> 
+                <Grid item>
+                  <MotifSection images={this.state.samples.motifImages[0]} motifCount={this.state.samples.motifCount}/>
+                </Grid>          
               </Grid>
             </Typography>
 

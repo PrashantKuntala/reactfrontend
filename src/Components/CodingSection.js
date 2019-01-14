@@ -49,13 +49,13 @@ const styles = theme=> ({
       overflow: 'scroll'
   },
   composite: {
-    width: 170,
-    marginLeft: -4,
+    width: 180,
+    marginLeft: -8,
     marginBottom: -8,
-    marginTop: 5
+    top: 35
   },
   regionHeatmap:{
-    width: 180
+    width: 190
   },
   sectionTitle:{
       fontSize: 18,
