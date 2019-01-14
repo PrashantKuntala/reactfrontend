@@ -38,59 +38,44 @@ class ReplicateTabs extends React.Component {
  // selected Replicate
   state = {
     replicate: 0,
+    samples : this.props.samples[0]
   };
 
   handleChange = (event, replicate) => {
-    this.setState({ replicate });
+    this.setState({ replicate: replicate, samples:this.props.samples[replicate] });
+    console.log("Replicate Changed to sampleId : " + this.props.samples[replicate].sampleId);
+        
   };
+  
 
   render() {
     const { classes } = this.props;
     const { replicate } = this.state;
+
     
     console.log("inside ReplicateTables");    
-    console.log(this.props.samples.length);
+    console.log(this.props.samples);
 
 
     let i = 0;
     let tabList = this.props.samples.map(sample=>{
 
       // Setting the badge based on Whether it is heatshock or YPD
-      if(sample.treatments === "Normal"){
-        var badge =  <Badge badgeContent={"Y"} color="primary" className={classes.treatmentBadge}> </Badge>
-      }
-      else{
-        badge =  <Badge badgeContent={sample.treatments.charAt(0)} color="primary" className={classes.treatmentBadge}> </Badge>
-      }
+      // make sure you have space inside the <Badge> tag, since some content is expected.
+      const badge = sample.treatments === "Normal" ?
+        <Badge badgeContent={"Y"} color="primary" className={classes.treatmentBadge}> </Badge>
+      :
+      <Badge badgeContent={sample.treatments.charAt(0)} color="primary" className={classes.treatmentBadge}> </Badge>
+  
      
       i = i + 1;
       let tabname = <Typography>
         {badge} 
         { "Replicate "+ i.toString()}                  
       </Typography>;
-
       return (
         <Tab label={tabname} key={i} />
       )
-    });
-
-
-    let tabContent = this.props.samples.map(sample=>{   
-
-      // Subsections per sample or replicate.
-      return (  
-        <Grid container spacing={24} direction="column" wrap="nowrap" 
-        justify="flex-start" className={classes.mainContainer}> 
- 
-           <Grid item >
-             <CodingSection images={sample.codingImages[0]}/>
-           </Grid>
-           <Grid item >
-           <NonCodingSection images={sample.nonCodingImages[0]}/> 
-           </Grid>           
-         </Grid>
-       )
-
     });
 
 
@@ -117,24 +102,23 @@ class ReplicateTabs extends React.Component {
 
           <Divider/> 
 
+          {/* Main Content */}
+          <CardContent className={classes.sectionHolder}> 
 
-          <CardContent className={classes.sectionHolder}>
-          {/* below is a short circuit operation : https://stackoverflow.com/questions/40682064/what-does-operator-indicate-with-this-props-children-react-cloneelemen  */}
-
-          {/* Need to dynamically allocate tabContents for each value, value and re[] */}
-          {replicate === 0 && 
             <Typography component="div" style={{ padding: 8 * 3 }}>
-              {tabContent[0]} 
+              <Grid container spacing={24} direction="column" wrap="nowrap" 
+                    justify="flex-start" className={classes.mainContainer}> 
+                {/* Subsections for each replicate */}
+                <Grid item>
+                  <CodingSection images={this.state.samples.codingImages[0]}/>
+                </Grid>
+                <Grid item >
+                <NonCodingSection images={this.state.samples.nonCodingImages[0]}/> 
+                </Grid>           
+              </Grid>
             </Typography>
-          }
 
-          {replicate === 1 && 
-            <Typography component="div" style={{ padding: 8 * 3 }}>
-              {tabContent[1]} 
-            </Typography>
-          }
-          </CardContent>
-          
+          </CardContent>          
       </Paper> 
       </div>
     );

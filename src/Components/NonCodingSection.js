@@ -46,6 +46,17 @@ class NonCodingSection extends React.Component {
     imageUrl : this.props.images
   };
 
+  // Used to update the NonCodingSection , when new replicate tab is selected
+  componentWillReceiveProps(newProps){
+    // console.log('Props changed for the non-coding section')
+    // console.log(newProps);
+    this.setState({
+        selectedTab: 0,
+        imageUrl: newProps.images
+    });
+    
+ }
+
   handleChange = (event, selectedTab) => {
     
     selectedTab === 0 ? this.setState({

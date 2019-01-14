@@ -77,6 +77,17 @@ class CodingSection extends React.Component {
     imageUrl : this.props.images
   };
 
+// Used to update the CodingSection , when new replicate tab is selected
+  componentWillReceiveProps(newProps){
+    // console.log('Props changed for the coding section')
+    // console.log(newProps);
+    this.setState({
+        selectedTab: 0,
+        imageUrl: newProps.images
+    });
+    
+ }
+
  // Should be another way to do this , but for now this works
 // How about sending the props themselves in the compressed way so that these prop changes can be made easy. 
   handleChange = (event, selectedTab) => {
