@@ -76,7 +76,7 @@ class SampleStats extends React.Component {
 
   handleSamplePublication = (id,value,replicateId) => () => {
     // The patchURL should be coming from a config file.
-    var patchURL = "http://localhost:8080/reviewSamples/"+id;
+    var patchURL = "http://172.29.0.74:8080/reviewSamples/"+id;
     var updateArray = [{"propName": "isPublic","value" : value}]
     // console.log(patchURL);
     // console.log(updateArray);

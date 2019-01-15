@@ -68,7 +68,7 @@ class Post extends Component{
         
         let id = this.props.match.params.post_id;
         
-        axios.get('http://localhost:8080/reviewSamples/'+id)
+        axios.get('http://172.29.0.74:8080/reviewSamples/'+id)
             .then(res =>{
                 console.log("SampleData");                
                 console.log(res.data.samples);
@@ -91,7 +91,7 @@ componentWillReceiveProps(nextProps){
     console.log('route chnaged')
     console.log(nextProps);
     let id = nextProps.match.params.post_id;
-    axios.get('http://localhost:8080/reviewSamples/'+id)
+    axios.get('http://172.29.0.74:8080/reviewSamples/'+id)
         .then(res =>{
             this.setState({
                 post : res.data

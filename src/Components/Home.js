@@ -28,7 +28,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/reviewSamples')
+        axios.get('http://172.29.0.74:8080/reviewSamples')
         .then(res => {
                 // console.log(res.data.count);
                 console.log(res.data.samples);

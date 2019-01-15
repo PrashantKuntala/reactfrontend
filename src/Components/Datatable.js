@@ -15,7 +15,7 @@ class Datatable extends React.Component {
     //  inbuilt before compiling and building the final production page.
     //  since you have access to the window javascript global you can do this.
     //    console.log(window);
-    let url = "http://localhost:3000/" + rowData[1];
+    let url = "http://172.29.0.74:3000/" + rowData[1];
     let win = window.open(url, '_blank');
     win.focus();             
     }
