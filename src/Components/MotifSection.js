@@ -11,6 +11,9 @@ import Divider from '@material-ui/core/Divider';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
+import blue from '@material-ui/core/colors/blue';
+import Radio from '@material-ui/core/Radio';
+
 const styles = theme=> ({
   card: {
     // border: `2px solid green`,
@@ -46,9 +49,11 @@ const styles = theme=> ({
   motifLogo:{
      width: 250,
      height: 100,
-     marginTop: 78
   },  
-  
+  motifLogoControls:{
+    marginTop: 18,
+    // border: '2px solid green'
+  },
   mainContainer:{
       overflow: 'scroll'
   },   
@@ -60,7 +65,13 @@ const styles = theme=> ({
   },
   chexmixContent:{
       border : "2px solid red"
-  },  
+  },
+  radioButton:{    
+    '&$checked': {
+      color: blue['A700'],
+    },
+  },
+  checked: {}, 
   
 });
 
@@ -69,7 +80,8 @@ class MotifSection extends React.Component {
   // value is used to keep the tab active
   state = {
     selectedTab: 0,
-    imageUrl : this.props.images
+    imageUrl : this.props.images,
+    motifLogo : 'forwardStrand'
   };
 
 // Used to update the MotifSection , when new replicate tab is selected
@@ -91,14 +103,14 @@ class MotifSection extends React.Component {
         case 1:
             this.setState({
                 selectedTab: selectedTab,
-                imageUrl: {motif1Logo:this.props.images.motif2Logo, motif1Composite: this.props.images.motif2Composite, motif1Heatmap:this.props.images.motif2Heatmap,
+                imageUrl: {motif1Logo:this.props.images.motif2Logo,motif1LogoReverse:this.props.images.motif2LogoReverse, motif1Composite: this.props.images.motif2Composite, motif1Heatmap:this.props.images.motif2Heatmap,
                     motif1FourColor:this.props.images.motif2FourColor}
             });
           break;
         case 2:
         this.setState({
             selectedTab: selectedTab,
-            imageUrl: {motif1Logo:this.props.images.motif3Logo, motif1Composite: this.props.images.motif3Composite, motif1Heatmap:this.props.images.motif3Heatmap,
+            imageUrl: {motif1Logo:this.props.images.motif3Logo,motif1LogoReverse:this.props.images.motif3LogoReverse, motif1Composite: this.props.images.motif3Composite, motif1Heatmap:this.props.images.motif3Heatmap,
                 motif1FourColor:this.props.images.motif3FourColor}
         })
         break;
@@ -109,6 +121,13 @@ class MotifSection extends React.Component {
             })
       }
   };
+
+// To switch between positive and reverse strand
+
+handleRadioChange = event => {
+  this.setState({ motifLogo: event.target.value });
+};
+
 
   render() {
   const { classes } = this.props;
@@ -150,7 +169,12 @@ class MotifSection extends React.Component {
     ]
   }
 
- 
+const motifLogo = this.state.motifLogo === 'forwardStrand' ?
+<img src={imageUrl.motif1Logo} alt="Motif Logo" className={classes.motifLogo}/> 
+                        :
+<img src={imageUrl.motif1LogoReverse} alt="Motif Logo" className={classes.motifLogo}/> 
+
+
 const motifContent = this.props.motifCount <= 0 ? 
 <CardContent className={classes.sectionHolder}> 
     <Typography variant="overline" gutterBottom style={{textAlign:"center"}}>
@@ -173,8 +197,33 @@ const motifContent = this.props.motifCount <= 0 ?
                     spacing={0}
                     >
                         <Grid item >
-                        <img src={imageUrl.motif1Logo} alt="Motif Logo"
-                        className={classes.motifLogo}/>
+                          <Grid container spacing={24} direction="row" justify="space-evenly" className={classes.motifLogoControls}>
+                              <Grid item>
+                                  <Radio
+                                  checked={this.state.motifLogo === 'forwardStrand'}
+                                  onChange={this.handleRadioChange}
+                                  value="forwardStrand"
+                                  name="forwardStrand-radio-button"
+                                  aria-label="forwardStrandButton"
+                                  classes={{
+                                    root: classes.radioButton,
+                                    checked: classes.checked,
+                                  }}
+                                  /> 
+                                  Forward                         
+                              </Grid>
+                              <Grid item>
+                                <Radio
+                                checked={this.state.motifLogo === 'reverseStrand'}
+                                onChange={this.handleRadioChange}
+                                value="reverseStrand"
+                                name="reverseStrand-radio-button"
+                                aria-label="reverseStrandButton"
+                              />
+                              Reverse
+                              </Grid>
+                          </Grid>
+                          {motifLogo}
                         </Grid>                               
                         <Grid item >
                         <img src={imageUrl.motif1FourColor} alt="FourColor Plot"
@@ -194,7 +243,7 @@ const motifContent = this.props.motifCount <= 0 ?
                     alignItems="center"
                     spacing={0}
                     >
-                        <Grid item >
+                        <Grid item >                          
                         <img src={imageUrl.motif1Composite} alt="Motif Composite"
                         className={classes.motifComposite}/>
                         </Grid>                               

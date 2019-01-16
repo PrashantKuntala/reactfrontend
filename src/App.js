@@ -32,7 +32,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <CssBaseline /> 
-          <Navbar />
+          <Navbar />          
           {/* Simple button click routing */}
           {/* <Route render={({ history}) => (
         <button
@@ -51,7 +51,7 @@ class App extends Component {
             <Route path='/faq' component={FAQ} />
             <Route path='/downloads' component={Downloads} />
             <Route path="/:post_id" component={Post} />
-          </Switch>         
+          </Switch>
         </div>
       </BrowserRouter>     
     );
