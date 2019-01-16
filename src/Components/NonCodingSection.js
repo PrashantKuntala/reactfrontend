@@ -18,10 +18,7 @@ const styles = {
   },
   topSection: {
     // border: '2px solid gray'
-  },
-  bottomSection:{
-    // border: '2px solid blue'
-  },
+  }, 
   featureHeatmap:{
       width: 250,     
     //   border: '2px solid yellow'
@@ -134,40 +131,7 @@ class NonCodingSection extends React.Component {
                                     className={classes.featureHeatmap}/>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                            
-                            {/* Buffer Section */}
-                            <Grid item >
-                                <Divider/>
-                            </Grid>
-                            
-                            {/* Bottom Section */}
-                            <Grid item className={classes.bottomSection}>
-
-                                <Grid container 
-                                    direction="row"
-                                    justify="space-evenly"
-                                    alignItems="center"
-                                    spacing={0}
-                                >
-                                        <Grid item >
-                                            <img src={imageUrl.trnaHeatmap} alt="TRNA Heatmap"
-                                            className={classes.featureHeatmap}/>
-                                        </Grid>
-                                        <Grid item >
-                                            <img src={imageUrl.xelementHeatmap} alt="Xelement Heatmap"
-                                            className={classes.featureHeatmap}/>
-                                        </Grid>
-                                        <Grid item >
-                                            <img src={imageUrl.centromereHeatmap} alt="Centromere Heatmap"
-                                            className={classes.featureHeatmap}/>
-                                        </Grid>
-                                        <Grid item >
-                                            <img src={imageUrl.arsHeatmap} alt="ARS Heatmap"
-                                            className={classes.featureHeatmap}/>
-                                        </Grid>
-                                </Grid>
-                            </Grid>                 
+                            </Grid>   
                     </Grid>  
             </Typography>
          

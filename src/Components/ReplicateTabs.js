@@ -12,6 +12,7 @@ import CardContent from '@material-ui/core/CardContent';
 // additional components
 import CodingSection from './CodingSection';
 import NonCodingSection from './NonCodingSection';
+import OtherFeaturesSection from './OtherFeaturesSection';
 import MotifSection from './MotifSection';
 import { Grid } from '@material-ui/core';
 
@@ -115,6 +116,9 @@ class ReplicateTabs extends React.Component {
                 </Grid>
                 <Grid item >
                   <NonCodingSection images={this.state.samples.nonCodingImages[0]}/> 
+                </Grid> 
+                <Grid item >
+                  <OtherFeaturesSection images={this.state.samples.nonCodingImages[0]}/> 
                 </Grid> 
                 <Grid item>
                   <MotifSection images={this.state.samples.motifImages[0]} motifCount={this.state.samples.motifCount}/>
