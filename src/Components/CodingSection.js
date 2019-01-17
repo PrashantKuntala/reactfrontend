@@ -14,7 +14,8 @@ import Tab from '@material-ui/core/Tab';
 const styles = theme=> ({
   card: {
     // border: `2px solid green`,
-    maxWidth: 1100
+    maxWidth: 1100,
+    
   },
   paper: {
     height: 200,
@@ -28,16 +29,16 @@ const styles = theme=> ({
     // border: '2px solid blue'
   },
   featureHeatmap:{
-      width: 200,
-      height:500,
-      marginTop:30,
+      width: 210,
+      height:530,
+      marginTop:35,
     //   border: '2px solid yellow'
   },
   colorBar:{
-    height: 443,
+    height: 470,
     width: 20,
-    marginTop:11,
-    marginLeft: -6   
+    marginTop:14,
+    marginLeft: -15   
   },
   enrichedcolorBar:{
     height: 443,
@@ -49,13 +50,15 @@ const styles = theme=> ({
       overflow: 'scroll'
   },
   composite: {
-    width: 180,
-    marginLeft: -8,
-    marginBottom: -8,
-    top: 35
+    // width: 170,
+    height: 135,
+    marginLeft: -6,
+    marginBottom: -9,
+    marginTop: 25
   },
   regionHeatmap:{
-    width: 190
+    // width: 190
+    height: 410
   },
   sectionTitle:{
       fontSize: 18,
@@ -153,7 +156,7 @@ class CodingSection extends React.Component {
                             direction="row"
                             justify="space-evenly"
                             alignItems="center"
-                            spacing={0}
+                            spacing={8}
                             wrap="nowrap">
                                 <Grid item >
                                 <img src={imageUrl.allFeaturesHeatmap} alt="All Features Heatmap"
@@ -164,6 +167,7 @@ class CodingSection extends React.Component {
                                     alt="Bound Features Colorbar"
                                     className={classes.colorBar}/>
                                 </Grid>
+                                <Grid item></Grid>
                                 <Grid item >
                                 <img src={imageUrl.boundFeaturesHeatmap} alt="Bound Features Heatmap"
                                     className={classes.featureHeatmap}/>
@@ -186,7 +190,7 @@ class CodingSection extends React.Component {
                                 direction="row"
                                 justify="space-evenly"
                                 alignItems="center"
-                                spacing={8}
+                                spacing={0}
                                 wrap="nowrap">
 
                             {/* NFR */}

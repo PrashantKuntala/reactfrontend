@@ -25,13 +25,28 @@ const styles = theme => ({
     overflow: "hidden"
   },
   card: {
-    margin: 20
+    marginTop: 20
 },
   treatmentBadge: {
     marginRight: 20,
   },
   sectionHolder:{
     background: "#fafafa",
+  },
+  contentHolder:{
+  //  setting the padding based on the screen size
+    [theme.breakpoints.down('sm')]: {
+      // backgroundColor: theme.palette.secondary.main,
+      padding: 8,
+    },
+    [theme.breakpoints.up('md')]: {
+      // backgroundColor: theme.palette.primary.main,
+      padding: 8 * 3,
+    },
+    [theme.breakpoints.up('lg')]: {
+      // backgroundColor: "green",
+      padding: 8 * 3,
+    },
   }
 });
 
@@ -107,7 +122,7 @@ class ReplicateTabs extends React.Component {
           {/* Main Content */}
           <CardContent className={classes.sectionHolder}> 
 
-            <Typography component="div" style={{ padding: 8}}>
+            <Typography component="div" className={classes.contentHolder}>
               <Grid container spacing={24} direction="column" wrap="nowrap" 
                     justify="flex-start" className={classes.mainContainer}> 
                 {/* Subsections for each replicate */}

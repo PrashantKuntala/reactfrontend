@@ -28,20 +28,15 @@ import ReplicateTabs from './ReplicateTabs';
 import { SnackbarProvider } from 'notistack';
 
 const styles = theme => ({
-    root: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-        margin: 12,        
-    },
-      
+          
     center : {
-        margin: 'auto',
-        width: '80%',
+        margin: 'auto',      
+        maxWidth: 1200,
         padding: 10,
+        // border: '2px solid green'
       },
     card: {
-        margin: 20
+        maxWidth: 1200
     },   
             
       leftIcon: {
@@ -134,9 +129,9 @@ toggleDrawer = (option) => () => {
         // sections, which are themselves individual components
 
         const post = this.state.post ? (
-            <div>
+            <div className={classes.card}>
                 {/* Header Section */}
-                <Card className={classes.card}>
+                <Card >
                         <CardContent >
                             <Grid container spacing={8} alignItems={"center"} >
                                 <Grid item sm={"auto"}>
