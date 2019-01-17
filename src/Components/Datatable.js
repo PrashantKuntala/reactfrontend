@@ -22,7 +22,7 @@ class Datatable extends React.Component {
 
   render() {
     const columns = [ {
-        name: "SampleId",
+        name: "Sample ID",
         options: {
          filter: false,
          sort: true,         
@@ -41,6 +41,13 @@ class Datatable extends React.Component {
              sort: true,         
             }
             },
+            {
+              name: "Growth Media",
+              options: {
+               filter: false,
+               sort: true,         
+              }
+              },
         {
             name: "Alias",
             options: {
@@ -67,7 +74,7 @@ class Datatable extends React.Component {
 
     return (
       <MUIDataTable
-        title={"Browse All Samples"}
+        title={"Explore"}
         data={data}
         columns={columns}
         options={options}        

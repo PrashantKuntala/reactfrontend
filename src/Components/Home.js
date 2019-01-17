@@ -14,11 +14,8 @@ import Datatable from './Datatable';
 const styles = theme => ({
     center : {
         margin: 'auto',
-        width: '70%',
-        padding: 20,    
-      },
-    progress: {
-        margin: theme.spacing.unit * 2,
+        maxWidth: 1140,
+        // padding: 10,    
       },
 });
 
@@ -35,7 +32,7 @@ class Home extends Component {
 
                 // retrieve the sample data
                 let values = res.data.samples.map(sample =>{
-                    return [sample.sampleId,sample.standardGeneName,sample.treatments,sample.alias]
+                    return [sample.sampleId,sample.standardGeneName,sample.treatments,sample.growthMedia,sample.alias]
                 });
                 // let myJsonString = JSON.stringify(values);
                 // console.log(myJsonString);

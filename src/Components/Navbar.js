@@ -37,7 +37,7 @@ const Navbar = (props) => {
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow} component={Link} to="/">            
+          <Typography variant="h6" color="inherit" className={classes.grow} component={Link} to="/">           
            YEP
           </Typography>
           <Button color="inherit" component={Link} to="/about"> About </Button>

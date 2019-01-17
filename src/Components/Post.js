@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 // material-ui imports
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -17,7 +17,7 @@ import InfoIcon from '@material-ui/icons/InfoOutlined';
 import Drawer from '@material-ui/core/Drawer';
 import DownloadIcon from '@material-ui/icons/GetAppOutlined';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import Paper from '@material-ui/core/Paper';
 // For Sample Meta information Drawer
 import SampleStats from './SampleStats';
 
@@ -26,6 +26,11 @@ import ReplicateTabs from './ReplicateTabs';
 
 // For SampleStats Notifications
 import { SnackbarProvider } from 'notistack';
+
+// For searching
+// import SearchBox from './SeachBox';
+import Tooltip from '@material-ui/core/Tooltip';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 
 const styles = theme => ({
           
@@ -37,12 +42,18 @@ const styles = theme => ({
       },
     card: {
         maxWidth: 1200
-    },   
-            
+    },           
       leftIcon: {
         marginRight: theme.spacing.unit,
-        fontSize: 20,
-      }
+        // fontSize: 25,
+      },  
+      navbar:{
+        
+      },
+      searchbar:{
+        width: 1100
+      } 
+       
     
 });
 
@@ -130,8 +141,9 @@ toggleDrawer = (option) => () => {
 
         const post = this.state.post ? (
             <div className={classes.card}>
+               
                 {/* Header Section */}
-                <Card >
+                <Card >                    
                         <CardContent >
                             <Grid container spacing={8} alignItems={"center"} >
                                 <Grid item sm={"auto"}>
@@ -206,9 +218,38 @@ toggleDrawer = (option) => () => {
             </Typography>
         )
         return (
-            <Typography component="div" className={classes.center}>
-                {post}
-            </Typography>
+            <div style={{ background: 'linear-gradient(to bottom,#e8eaf6,#e8eaf6)'}}>  
+                {/* Navbar and search */}
+                <Paper elevation={1} className={classes.navbar}>
+                    <CardActions>
+                        
+                        <Grid container spacing={16} direction="row" wrap="nowrap"  justify="flex-start">
+
+                            <Grid item sm={"auto"}>
+                                <Tooltip title="Go Home" aria-label="Go Home">
+                                    <Button size="small" color="primary" component={Link} to="/" >
+                                        <ArrowBack className={classes.leftIcon} /> Home
+                                    </Button> 
+                                </Tooltip>                                                                            
+                            </Grid> 
+
+                            {/* Buffer Zone */}
+                            <Grid item>
+                            </Grid> 
+
+                            {/* Search Box */}
+                            {/* <Grid item sm={"auto"} className={classes.searchbar}>                       
+                                <SearchBox/>    
+                            </Grid>  */}
+                                            
+                        </Grid>   
+                    </CardActions>
+                </Paper>
+                {/* main Sample Content */}
+                <Typography component="div" className={classes.center}>
+                    {post}
+                </Typography>
+            </div>
         )
     }
 }
