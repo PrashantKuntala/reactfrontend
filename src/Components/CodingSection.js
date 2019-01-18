@@ -53,7 +53,7 @@ const styles = theme=> ({
     // width: 170,
     height: 135,
     marginLeft: -6,
-    marginBottom: -9,
+    marginBottom: -8,
     marginTop: 25
   },
   regionHeatmap:{

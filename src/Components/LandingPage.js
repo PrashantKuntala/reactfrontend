@@ -9,26 +9,24 @@ import Grid from '@material-ui/core/Grid';
 import Home from './Home';
 import SearchBox from './SearchBox';
 
+import pennstatelogo from '../pennstatelogo.png';
+import cegrlogo from '../CEGRlogo.png';
 
-
-const styles = ({
+const styles =({
     root: {
         height: '100vh',
         display: 'flex',
         flexDirection:'column',
-        background: 'linear-gradient(to bottom,#fce4ed,#ffe8cc)'
+        background: 'linear-gradient(to bottom,#e8eaf6,#e8eaf6)'
         // fontFamily: 'Roboto Slab'             
     },
     content:{
-        flex : '1 0 auto',
-       
+        flex : '1 0 auto',       
         // textAlign: 'center',
     },
     footer: {
         /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
         flexShrink: 0,
-        padding: 20,
-        
         // height: '20vh',
         // background: '#344955',
         // color: "white"
@@ -49,9 +47,9 @@ const styles = ({
       center : {
         margin: 'auto',
         maxWidth: 1140,
-        // padding: 10,    
+        // padding: 10,  
+        // border: '2px solid green'  
       },
-
 });
 
 const LandingPage = (props) => {
@@ -71,7 +69,7 @@ const LandingPage = (props) => {
                         </Typography>
                         <Divider/>
                         <Typography variant="subtitle1" gutterBottom>
-                        Saccharomyces cerevisiae epigenome                        
+                        <em>Saccharomyces cerevisiae</em> epigenome                        
                         </Typography>
                         <Typography variant="caption" component="p" gutterBottom>
                         An improved understanding of how genes are regulated requires an improved understanding of where gene regulatory proteins are bound.
@@ -91,10 +89,10 @@ const LandingPage = (props) => {
                         <Card>
                             <CardContent>
                                 <Typography variant="h6" gutterBottom>
-                                    Contributors
+                                    About
                                 </Typography>
                                 <Typography variant="body1">
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi possimus illo molestias temporibus aperiam repellat veritatis corporis alias qui quam a rem, architecto laborum numquam eveniet explicabo nam impedit quos.
+                                The Yeast Epigenome Project (YEP) is an extensive study on 800 strains of yeast using the ChIP-exo assay. This Website hosts the results of data analysis from our galaxy workflows for each sample in the project.
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -105,27 +103,28 @@ const LandingPage = (props) => {
                         <Home/>
                     </Grid>
 
-                    {/* Contirbutors Section */}
-                    {/* <Grid item className={classes.center}>                    
-                        <Card >
-                            <CardContent>
-                                <Typography variant="h6" gutterBottom>
-                                    Contributors
+                    
+                    {/* Footer  Section */}
+                    <Grid item className={classes.center}> 
+                        <Grid container spacing={40} alignItems={"center"} direction="row" justify="center" className={classes.footer}>
+                            <Grid item>
+                                <img src={pennstatelogo} alt="pennstateLogo" style={{width: 160}}/> 
+                            </Grid>
+                            <Grid item>
+                                <img src={cegrlogo} alt="cegrlogo" style={{height: 55}}/>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant='body2' style={{paddingLeft:28}}>
+                                    &copy; 2019 Pennsylvania State University
                                 </Typography>
-                                <Typography variant="body1">
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi possimus illo molestias temporibus aperiam repellat veritatis corporis alias qui quam a rem, architecto laborum numquam eveniet explicabo nam impedit quos.
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid> */}
+                            </Grid>
+                        </Grid>                       
+                    </Grid>
 
                 </Grid>                
             </div>
 
-            {/* footer */}
-            {/* <CardContent className={classes.footer}> 
-                footer                
-            </CardContent> */}
+           
           
         </div>
         

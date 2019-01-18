@@ -205,7 +205,7 @@ class SearchBox extends React.Component {
             components={components}
             value={this.state.single}
             onChange={this.handleChange('single')}
-            placeholder="Search your favourite protein"
+            placeholder="Search your favourite factor"
             isClearable
             autoFocus
           />

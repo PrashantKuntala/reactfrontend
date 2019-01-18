@@ -80,9 +80,9 @@ class ReplicateTabs extends React.Component {
       // Setting the badge based on Whether it is heatshock or YPD
       // make sure you have space inside the <Badge> tag, since some content is expected.
       const badge = sample.treatments === "Normal" ?
-        <Badge badgeContent={"Y"} color="primary" className={classes.treatmentBadge}> </Badge>
+        <Badge badgeContent={" "} color="primary" className={classes.treatmentBadge}> </Badge>
       :
-      <Badge badgeContent={sample.treatments.charAt(0)} color="primary" className={classes.treatmentBadge}> </Badge>
+      <Badge badgeContent={" "} color="secondary" className={classes.treatmentBadge}> </Badge>
   
      
       i = i + 1;
