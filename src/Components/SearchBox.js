@@ -10,6 +10,8 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 
+// retrieve app configuration settings
+import Config from '../Config';
 
 const suggestions = [
   { label: 'REB1' },
@@ -175,7 +177,7 @@ class SearchBox extends React.Component {
         console.log(value);
       }
       else{
-        let url = "http://172.29.0.74:3000/" + value.label;
+        let url = Config.settings.appURL + "/" + value.label;
         window.open(url, '_blank');
         // win.focus();
       }

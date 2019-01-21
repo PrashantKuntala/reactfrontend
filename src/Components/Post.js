@@ -32,6 +32,10 @@ import { SnackbarProvider } from 'notistack';
 import Tooltip from '@material-ui/core/Tooltip';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
+// retrieve app configuration settings
+import Config from '../Config';
+
+
 const styles = theme => ({
           
     center : {
@@ -73,8 +77,8 @@ class Post extends Component{
         console.log(this.props);
         
         let id = this.props.match.params.post_id;
-        
-        axios.get('http://172.29.0.74:8080/reviewSamples/'+id)
+        let dataURL = Config.settings.apiURL + Config.settings.samplesEndpoint + '/' + id
+        axios.get(dataURL)
             .then(res =>{
                 console.log("SampleData");                
                 console.log(res.data.samples);
@@ -97,7 +101,8 @@ componentWillReceiveProps(nextProps){
     console.log('route chnaged')
     console.log(nextProps);
     let id = nextProps.match.params.post_id;
-    axios.get('http://172.29.0.74:8080/reviewSamples/'+id)
+    let dataURL = Config.settings.apiURL + Config.settings.samplesEndpoint + '/' + id
+    axios.get(dataURL)
         .then(res =>{
             this.setState({
                 post : res.data
@@ -174,10 +179,12 @@ toggleDrawer = (option) => () => {
                                     <TrackHubIcon className={classes.leftIcon}/>
                                     TrackHub
                                     </Button>
-                                    <Button size="small" color="primary" onClick={this.handleSGDClick}>
-                                    <LaunchIcon className={classes.leftIcon} />
-                                    view on SGD
-                                    </Button>
+                                    <Tooltip title="Saccharomyces Genome Database" aria-label="Go to Saccharomyces Genome Database">
+                                        <Button size="small" color="primary" onClick={this.handleSGDClick}>
+                                        <LaunchIcon className={classes.leftIcon} />
+                                        view on SGD
+                                        </Button>
+                                    </Tooltip>
                                     <Button size="small" color="primary" onClick={this.toggleDrawer(true)}>
                                     <InfoIcon className={classes.leftIcon} />
                                         More Info

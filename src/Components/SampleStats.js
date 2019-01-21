@@ -24,6 +24,8 @@ import PublishIcon from '@material-ui/icons/LockOpen';
 
 import { withSnackbar } from 'notistack';
 
+// retrieve app configuration settings
+import Config from '../Config';
 
 const styles = theme => ({
     fullList: {
@@ -76,7 +78,7 @@ class SampleStats extends React.Component {
 
   handleSamplePublication = (id,value,replicateId) => () => {
     // The patchURL should be coming from a config file.
-    var patchURL = "http://172.29.0.74:8080/reviewSamples/"+id;
+    var patchURL = Config.settings.apiURL + Config.settings.samplesEndpoint + "/" +id;
     var updateArray = [{"propName": "isPublic","value" : value}]
     // console.log(patchURL);
     // console.log(updateArray);
@@ -97,8 +99,8 @@ class SampleStats extends React.Component {
         if(res.statusText === "OK"){
             console.log("Sucess", updateArray[0]);
             value ?  
-            this.props.enqueueSnackbar(replicateId + ' is Published', { variant: 'success'}): 
-            this.props.enqueueSnackbar(replicateId + ' is Private', { variant: 'info'}); 
+            this.props.enqueueSnackbar(replicateId + ' is published', { variant: 'success'}): 
+            this.props.enqueueSnackbar(replicateId + ' is private', { variant: 'info'}); 
             this.setState({
                 stats : newStats
             })       

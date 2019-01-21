@@ -10,6 +10,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 // Mui Datatable
 import Datatable from './Datatable';
 
+// retrieve app configuration settings
+import Config from '../Config';
+
 
 const styles = theme => ({
     center : {
@@ -25,7 +28,8 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://172.29.0.74:8080/reviewSamples')
+        var dataURL = Config.settings.apiURL+Config.settings.samplesEndpoint;
+        axios.get(dataURL)
         .then(res => {
                 // console.log(res.data.count);
                 console.log(res.data.samples);

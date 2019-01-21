@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter} from 'react-router-dom';
 import MUIDataTable from "mui-datatables";
+import Config from '../Config';
 
 class Datatable extends React.Component {
     handleRowClick = (rowData,rowMeta) => {
@@ -15,7 +16,7 @@ class Datatable extends React.Component {
     //  inbuilt before compiling and building the final production page.
     //  since you have access to the window javascript global you can do this.
     //    console.log(window);
-    let url = "http://172.29.0.74:3000/" + rowData[1];
+    let url = Config.settings.appURL + '/'+ rowData[1];
     let win = window.open(url, '_blank');
     win.focus();             
     }
