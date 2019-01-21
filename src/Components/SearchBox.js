@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types, react/jsx-handler-names */
 
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { withStyles } from '@material-ui/core/styles';
@@ -13,22 +14,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 // retrieve app configuration settings
 import Config from '../Config';
 
-const suggestions = [
-  { label: 'REB1' },
-  { label: 'GAL4' },
-  { label: 'BY4741' },
-  { label: 'NRD1' },
-  { label: 'ORC6' },
-  { label: 'HHT2' },
-  { label: 'SSL1' },
-  { label: 'BRF1' },
-  { label: 'MCM16' },
-  { label: 'SET1' },
-  { label: 'CFT1' },
-].map(suggestion => ({
-  value: suggestion.label,
-  label: suggestion.label,
-}));
 
 const styles = theme => ({
   root: {    
@@ -165,7 +150,33 @@ const components = {
 class SearchBox extends React.Component {
   state = {
     single: "",
+    suggestions : [],
   };
+
+// life-cycle methods
+componentDidMount(){
+
+  // creating the url
+  let dataURL = Config.settings.apiURL + Config.settings.samplesEndpoint ;
+
+  // api call
+  axios.get(dataURL)
+      .then(res =>{
+          // extract unique sample names
+          const unique = [...new Set(res.data.samples.map(sample => sample.standardGeneName))];
+
+          // creating the suggestions on a sorted list
+          var suggestions = unique.sort().map(suggestion => ({
+            value: suggestion,
+            label: suggestion,
+          }));
+
+          this.setState({
+            suggestions: suggestions
+          });
+          
+      });
+}
 
   handleChange = name => value => {
     this.setState({
@@ -184,8 +195,11 @@ class SearchBox extends React.Component {
    
   };
 
+
+
   render() {
     const { classes, theme } = this.props;
+    const {suggestions} = this.state;
 
     const selectStyles = {
       input: base => ({
