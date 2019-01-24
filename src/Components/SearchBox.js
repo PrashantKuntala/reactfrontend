@@ -162,20 +162,23 @@ componentDidMount(){
   // api call
   axios.get(dataURL)
       .then(res =>{
+                  
           // extract unique sample names
-          const unique = [...new Set(res.data.samples.map(sample => sample.standardGeneName))];
-
+          const unique = [...new Set(res.data.samples.map(sample => {
+            return sample.standardGeneName + " / "+ sample.featureName
+            } ))];
+         
           // creating the suggestions on a sorted list
           var suggestions = unique.sort().map(suggestion => ({
-            value: suggestion,
+            value: suggestion ,
             label: suggestion,
           }));
-
+         
           this.setState({
             suggestions: suggestions
           });
           
-      });
+      });      
 }
 
   handleChange = name => value => {
@@ -188,7 +191,9 @@ componentDidMount(){
         console.log(value);
       }
       else{
-        let url = Config.settings.appURL + "/" + value.label;
+        console.log(value);
+        
+        let url = Config.settings.appURL + "/" + value.label.split(' / ')[0];
         window.open(url, '_blank');
         // win.focus();
       }
