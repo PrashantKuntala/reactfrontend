@@ -91,7 +91,11 @@ class Post extends Component{
                 console.log(this.props.match);        
                 console.log(this.props.history.location);
                 // console.log(res.data);                
-            })        
+            }) 
+
+            // Setting the title of the browser tab
+            document.title = id + " | YEP"
+           
     }
 componentDidUpdate(){
     console.log("component updated");  
