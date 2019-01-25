@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.com/PrashantKuntala/reactfrontend.svg?branch=master)](https://travis-ci.com/PrashantKuntala/reactfrontend)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
