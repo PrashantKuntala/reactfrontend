@@ -16,7 +16,6 @@ import TableRow from '@material-ui/core/TableRow';
 import CardActions from '@material-ui/core/CardActions';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import Button from '@material-ui/core/Button';
-import LaunchIcon from '@material-ui/icons/Launch';
 import { Card } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 import UnPublishIcon from '@material-ui/icons/Lock';
@@ -67,13 +66,6 @@ const styles = theme => ({
 class SampleStats extends React.Component {
   state = {
     stats : this.props.stats
-  }
-
-//   Might remove this link and move it to the faq page
- handleProtocolLink = () => {
-    let url = "https://www.ncbi.nlm.nih.gov/pubmed/30030442"
-    let prtWin = window.open(url, '_blank');
-    prtWin.focus();
   }
 
   handleSamplePublication = (id,value,replicateId) => () => {
@@ -265,12 +257,7 @@ class SampleStats extends React.Component {
                         </Tooltip>                                                                            
                     </Grid>  
                     <Grid item sm={"auto"}>
-                        <Tooltip title="Simplified ChIP-exo Assays" aria-label="Simplified ChIP-exo Assays">
-                            <Button size="small" color="primary" onClick={this.handleProtocolLink}> 
-                                PubMed
-                                <LaunchIcon className={classes.rightIcon} />
-                            </Button>
-                        </Tooltip>                        
+                        {/* Add Card Actions here or filter menu  */}
                     </Grid> 
                                      
                 </Grid>   

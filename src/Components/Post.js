@@ -15,7 +15,7 @@ import LaunchIcon from '@material-ui/icons/Launch';
 import TrackHubIcon from '@material-ui/icons/AssessmentOutlined';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import Drawer from '@material-ui/core/Drawer';
-import DownloadIcon from '@material-ui/icons/GetAppOutlined';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Paper from '@material-ui/core/Paper';
 // For Sample Meta information Drawer
