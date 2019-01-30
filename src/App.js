@@ -8,6 +8,7 @@ import Downloads from './Components/Downloads';
 import Post from './Components/Post';
 import LandingPage from './Components/LandingPage';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import EditSample from './Components/EditSample';
 
 
 
@@ -47,7 +48,8 @@ class App extends Component {
             <Route path='/about' component={About} />
             <Route path='/faq' component={FAQ} />
             <Route path='/downloads' component={Downloads} />
-            <Route path="/:post_id" component={Post} />
+            <Route exact path="/:post_id" component={Post} />
+            <Route path="/edit/:sample_id" component={EditSample} />
           </Switch>
         </div>
       </BrowserRouter>  

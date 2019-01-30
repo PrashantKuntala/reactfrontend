@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -20,6 +21,7 @@ import { Card } from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 import UnPublishIcon from '@material-ui/icons/Lock';
 import PublishIcon from '@material-ui/icons/LockOpen';
+import EditIcon from '@material-ui/icons/EditOutlined';
 
 import { withSnackbar } from 'notistack';
 
@@ -105,6 +107,11 @@ class SampleStats extends React.Component {
         }         
     })
   };
+
+  handleSampleEdit = (id,value,replicateId) => () => {
+    console.log("Handling the edit click for sample with id " + id);
+    
+  };
   
 
   render() {
@@ -124,20 +131,33 @@ class SampleStats extends React.Component {
                 <Card>
                     <CardContent>
                         <Typography variant="h5" gutterBottom  >
-                           {sampleStatus}
-                           {" Replicate " + id}
-                           <Typography variant="overline"> 
-                            {item.standardGeneName} / {item.featureName} 
-                            </Typography>
-                           <Typography variant="caption" > 
-                            {item.alias}   
-                            </Typography>
-                            
+                        <Grid container spacing={8} direction="row" wrap="nowrap" 
+                        justify="space-between" className={classes.mainContainer}> 
+                            <Grid item>
+                                {" Replicate " + id}
+                                <Typography variant="overline"> 
+                                    {item.standardGeneName} / {item.featureName} 
+                                </Typography>
+                                <Typography variant="caption" > 
+                                    {item.alias}   
+                                </Typography>
+                            </Grid>
+                            <Grid item>   
+                                <Tooltip title="Edit Sample" aria-label="Edit Sample">
+                                    <Link to={"/edit/"+ item._id}>
+                                    <EditIcon color="primary"/> 
+                                    </Link>                                    
+                                </Tooltip>                            
+                                <Tooltip title="Publish Sample" aria-label="Publish Sample">
+                                    {sampleStatus}
+                                </Tooltip>                                    
+                            </Grid>                            
+                        </Grid> 
                            {/* <Typography component="span" variant="subtitle1" gutterBottom>
                            {item.runId} / {item.sampleId} / epitopeTag : {item.epitopeTag} / {item.antibody} 
                             </Typography> */}
                         </Typography>                       
-                        <Divider/>
+                        <Divider/>                        
                         <br/>
                             
                         <Grid container spacing={24} direction="column" justify="flex-start">
