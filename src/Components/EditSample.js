@@ -13,13 +13,13 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 import TextField from '@material-ui/core/TextField';
+import CheckIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/Error';
 
 // retrieve app configuration settings
 import Config from '../Config';
+
 
 const styles = theme => ({
           
@@ -30,7 +30,8 @@ const styles = theme => ({
         // border: '2px solid green'
       },
     card: {
-        maxWidth: 1200
+        maxWidth: 1200,
+        padding: 20
     },           
       leftIcon: {
         marginRight: theme.spacing.unit,
@@ -41,27 +42,48 @@ const styles = theme => ({
       },
       button: {
         marginRight: theme.spacing.unit,
-        marginBottom: 0
+        marginBottom: 0,
+        float:"right"
       },
       instructions: {
         marginTop: theme.spacing.unit,
         marginBottom: theme.spacing.unit,
         textAlign: "center"
-      }, 
+      },
+      success :{
+        fontSize: 30,
+        color: "#43a047",       
+        float: "left"
+      },
+      fail:{
+        fontSize: 30,
+        color: "#dd2c00",      
+        float: "left"
+      } 
     
 });
 
-// util functions
-function getSteps() {
-    return ['Make Changes', 'Review Changes', 'Apply Changes'];
-  }
 
 class EditSample extends React.Component {
     state = {
-        activeStep: 0,
-        skipped: new Set(),
-        sampleData : [],
-        value: ""
+        changesSubmitted : false,
+        updateStatus : "",
+        editFields: {
+            alias : '',
+            antibody: '',
+            assayType: '',
+            description: '',
+            epitopeTag:'' ,
+            featureName:'',
+            genome:'',
+            growthMedia:'',
+            runId:'',
+            sampleId:'', 
+            sgdId:'',
+            standardGeneName : '',
+            treatments:'',
+        },
+        
     }
 
     // you would access the route parameter here and then maybe fetch stuff
@@ -77,14 +99,33 @@ class EditSample extends React.Component {
             .then(res =>{
                 console.log("SampleData");                
                 console.log(res.data.samples);
-             
+
+                // creating an object that will be the fields in the form to edit.
+                const editData = res.data.samples.map(sample => {
+                    return {
+                        alias :sample.alias,
+                        antibody: sample.antibody,
+                        assayType: sample.assayType,
+                        description: sample.description,
+                        epitopeTag: sample.epitopeTag,
+                        featureName:sample.featureName,
+                        genome:sample.genome,
+                        growthMedia:sample.growthMedia,                        
+                        runId: sample.runId,
+                        sampleId: sample.sampleId,
+                        sgdId:sample.sgdId,
+                        standardGeneName : sample.standardGeneName,
+                        treatments: sample.treatments,
+                    }
+                });
+
                 this.setState({
-                   sampleData: res.data.samples[0]
+                    editFields: editData[0]
                 });    
             }) 
 
             // Setting the title of the browser tab
-            document.title = " Edit | YEP"
+            document.title = " Edit Sample | YEP"
            
     }
 
@@ -94,89 +135,296 @@ class EditSample extends React.Component {
         this.props.history.goBack();
     }
 
-    // to check if the step is skipped
-    isStepSkipped(step) {
-        return this.state.skipped.has(step);
-    }
-
-    // to handle next step
-    handleNext = () => {
-        const { activeStep } = this.state;
-        let { skipped } = this.state;
-        if (this.isStepSkipped(activeStep)) {
-            skipped = new Set(skipped.values());
-            skipped.delete(activeStep);
-        }
-        this.setState({
-            activeStep: activeStep + 1,
-            skipped,
-        });
-    };
-
-    // To go back one step
-    handleBack = () => {
-        this.setState(state => ({
-        activeStep: state.activeStep - 1,
-        }));
-    };
-
-    // to edit again
-    handleReset = () => {
-        this.setState({
-        activeStep: 0,
-        });
-    };
-
-    handleSubmit = (event) => {
-        console.log(this.state);     
-        event.preventDefault();
-      }
-
-      handleChange = (event) => {
-        // this.setState({value: event.target.value});
-        console.log(event.target.value);
+    handleSubmit = () => {
         
+        // console.log('Submitting below values');        
+        // console.log(this.state.editFields);
+
+        let id = this.props.match.params.sample_id;
+        var patchURL = Config.settings.apiURL + Config.settings.samplesEndpoint + "/" +id;
+
+        var updateArray = []       
+        let submitData = this.state.editFields;
+
+        for (var item in submitData){
+            if(item === "standardGeneName"){
+                updateArray.push({"propName": item,"value" : submitData[item].toUpperCase()})
+            }
+            else{
+                updateArray.push({"propName": item,"value" : submitData[item]})
+            }
+            
+        }
+        console.log(updateArray);
+        
+
+        axios.patch(patchURL,updateArray).then(res =>{
+            console.log(res);
+                    
+            if(res.statusText === "OK"){
+                console.log("Sucess", updateArray);
+                this.setState({
+                    changesSubmitted: true,
+                    updateStatus: "OK"
+                });
+            }
+            else{
+                // wondering when this would happen ?
+                console.log("Sample Update Failed", updateArray); 
+                this.setState({
+                    changesSubmitted: true,
+                    updateStatus: "Failed"
+                });                                             
+            }         
+        })        
       }
 
+    handleChange = property => event => {
+        
+        //  retrieve the existing object
+        const editFields = this.state.editFields;
+        editFields[property] = event.target.value;
+
+        // update the changes to respective fields
+        this.setState({
+            editFields: editFields
+        });
+        // console.log(this.state.editFields); 
+    };
 
   render() {
     const { classes } = this.props;
-    const {sampleData} = this.state;
-    const steps = getSteps();
-    const { activeStep } = this.state;
+    const {editFields} = this.state;
+    
+    const content = this.state.changesSubmitted ? 
+    
+        this.state.updateStatus === "OK" ?  <Typography variant="h6"> <CheckIcon className={classes.success}/>  Your Changes have been submitted successfully ! </Typography> :    <Typography variant="h6"> <ErrorIcon className={classes.fail}/> Unable to update the Sample. Please, Contact your Web Developer to resolve the bug ! </Typography>
+    : 
 
-    const getStepContent = (activeStep) => {
-        switch (activeStep) {
-          case 0:
-            return (
-                               
-                <form className={classes.container} autoComplete="off" onSubmit={this.handleSubmit}>
-                    <TextField
-                    id="standardGeneName"
-                    label="Gene Name"
-                    style={{ margin: 8 }}
-                    placeholder={sampleData.standardGeneName}
-                    margin="normal"
-                    variant="outlined"                    
-                    onChange={this.handleChange}
+     <CardContent>                        
+        <Typography variant='h5' gutterBottom>
+            Sample Editor
+        </Typography>                            
+        <Divider/>
+        <br/>
+        <Grid container spacing={16} direction="row" 
+            justify="flex-start" className={classes.mainContainer}> 
+            <Grid item>
+                <TextField   
+                    id="standardGeneName"                 
+                    label="Protein Name"                   
+                    value={editFields.standardGeneName}
+                    onChange={this.handleChange('standardGeneName')} 
+                    type="text"
+                    className={classes.textField}
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    margin="normal"
+                    variant="outlined"
+                    />  
+            </Grid>
+            <Grid item>
+                <TextField   
+                    id="featureName"                 
+                    label="Feature Name"                   
+                    value={editFields.featureName}
+                    onChange={this.handleChange('featureName')} 
+                    type="text"
+                    className={classes.textField}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    margin="normal"
+                    variant="outlined"
+                    />  
+            </Grid>
+            <Grid item>
+                <TextField   
+                    id="Assay"                 
+                    label="Assay Type"                   
+                    value={editFields.assayType}
+                    onChange={this.handleChange('assayType')} 
+                    type="text"
+                    className={classes.textField}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    margin="normal"
+                    variant="outlined"
+                    />  
+            </Grid>                
+            <Grid item>
+                <TextField
+                    id="Antibody"                 
+                    label="Antibody"
+                    className={classes.textField}
+                    value={editFields.antibody}
+                    type="text"
+                    onChange={this.handleChange('antibody')} 
+                    InputLabelProps={{
+                        shrink: true,
+                    }} 
+                    margin="normal"        
+                    variant="outlined"
                     />
-                </form>
-                
-            );
-          case 1:
-            return 'What is an ad group anyways?';
-          case 2:
-            return 'This is the bit I really care about!';
-          default:
-            return 'Unknown step';
-        }
-      }
+            </Grid> 
+            <Grid item>
+                <TextField
+                    id="epitopeTag"                 
+                    label="Epitope Tag"
+                    className={classes.textField}
+                    value={editFields.epitopeTag}
+                    type="text"
+                    onChange={this.handleChange('epitopeTag')} 
+                    InputLabelProps={{
+                        shrink: true,
+                    }} 
+                    margin="normal"        
+                    variant="outlined"
+                    />
+            </Grid>  
+            <Grid item>
+                <TextField
+                    id="genome"                 
+                    label="Genome"
+                    className={classes.textField}
+                    value={editFields.genome}
+                    type="text"
+                    onChange={this.handleChange('genome')} 
+                    InputLabelProps={{
+                        shrink: true,
+                    }} 
+                    margin="normal"        
+                    variant="outlined"
+                    />
+            </Grid> 
+            <Grid item>
+                <TextField
+                    id="growthMedia"                 
+                    label="Growth Media"
+                    className={classes.textField}
+                    value={editFields.growthMedia}
+                    type="text"
+                    onChange={this.handleChange('growthMedia')} 
+                    InputLabelProps={{
+                        shrink: true,
+                    }} 
+                    margin="normal"        
+                    variant="outlined"
+                    />
+            </Grid>  
+            <Grid item>
+                <TextField
+                    id="treatments"                 
+                    label="Treatments"
+                    className={classes.textField}
+                    value={editFields.treatments}
+                    type="text"
+                    onChange={this.handleChange('treatments')} 
+                    InputLabelProps={{
+                        shrink: true,
+                    }} 
+                    margin="normal"        
+                    variant="outlined"
+                    />
+            </Grid>  
+            <Grid item>
+                <TextField
+                    id="runId"                 
+                    label="Run ID"
+                    className={classes.textField}
+                    value={editFields.runId}
+                    type="text"
+                    onChange={this.handleChange('runId')} 
+                    InputLabelProps={{
+                        shrink: true,
+                    }} 
+                    margin="normal"        
+                    variant="outlined"
+                    />
+            </Grid>  
+            <Grid item>
+                <TextField
+                    id="sampleId"                 
+                    label="Sample ID"
+                    className={classes.textField}
+                    value={editFields.sampleId}
+                    type="text"
+                    onChange={this.handleChange('sampleId')} 
+                    InputLabelProps={{
+                        shrink: true,
+                    }} 
+                    margin="normal"        
+                    variant="outlined"
+                    />
+            </Grid>  
+            <Grid item>
+                <TextField
+                    id="sgdId"                 
+                    label="SGD ID"
+                    className={classes.textField}
+                    value={editFields.sgdId}
+                    type="text"
+                    onChange={this.handleChange('sgdId')} 
+                    InputLabelProps={{
+                        shrink: true,
+                    }} 
+                    margin="normal"        
+                    variant="outlined"
+                    />
+            </Grid>                                    
+        </Grid> 
+
+        <TextField   
+            id="alias"                 
+            label="Alias"                   
+            value={editFields.alias}
+            onChange={this.handleChange('alias')} 
+            type="text"
+            className={classes.textField}
+            InputLabelProps={{
+                shrink: true,
+            }}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            />  
+
+        <TextField   
+            id="description"                 
+            label="Description"                   
+            value={editFields.description}
+            onChange={this.handleChange('description')} 
+            type="text"
+            className={classes.textField}
+            InputLabelProps={{
+                shrink: true,
+            }}
+            fullWidth
+            multiline
+            margin="normal"
+            variant="outlined"
+            /> 
+        <br/>
+        <br/>
+        <Divider/> 
+        <br/>
+        <Button
+            variant="contained"
+            color="primary"                        
+            className={classes.button}
+            onClick={this.handleSubmit}
+            >
+            Submit
+        </Button>
+    </CardContent>
+                        
+
 
       return (
             <div style={{ background: 'linear-gradient(to bottom,#e8eaf6,#e8eaf6)'}}>  
+                
                 {/* Navbar */}
                 <Paper elevation={1} className={classes.navbar}>
                     <CardActions>                        
@@ -192,82 +440,12 @@ class EditSample extends React.Component {
                     </CardActions>
                 </Paper>
                 
-                {/* Sample Edit Steps */}
-                <Typography component="div" className={classes.center}>
-                    
-                        <Card className={classes.card}>
-    
-                                {/* Creating Steps */}
-                                <Stepper activeStep={activeStep}>
-                                    {steps.map((label, index) => {
-
-                                        const props = {};
-                                        const labelProps = {};                                    
-
-                                        if (this.isStepSkipped(index)) {
-                                        props.completed = false;
-                                        }
-                                        
-                                        return (
-                                        <Step key={label} {...props}>
-                                            <StepLabel {...labelProps}>{label}</StepLabel>
-                                        </Step>
-                                        );
-
-                                    })}
-                                </Stepper>
-
-                                {/* Creating Step Content */}
-                                {activeStep === steps.length ? (
-                                    <CardContent>
-                                        <Typography variant="h6" 
-                                        gutterBottom className={classes.instructions}>
-                                            All steps completed - you&apos;re sample is updated
-                                        </Typography>
-                                        <br/>
-                                        <Divider/>
-                                        <CardActions>                                 
-                                            <Button size="small" variant="contained" color="primary" onClick={this.handleReset} className={classes.button}>
-                                                Edit again 
-                                            </Button>
-                                        </CardActions>  
-                                    </CardContent>
-                                ) : (
-                                    <CardContent>
-                                    
-                                        {/* Retrieve step content here  */}
-                                        <Typography variant="h6" className={classes.instructions}>
-                                            {getStepContent(activeStep)}
-                                        </Typography>
-                                        <br/>
-                                        <Divider/>                   
-                                        
-                                        <CardActions> 
-                                            <Button
-                                            size="small"
-                                            variant="contained"
-                                            disabled={activeStep === 0}
-                                            onClick={this.handleBack}
-                                            className={classes.button}
-                                            >
-                                                Back
-                                            </Button>                                        
-
-                                            <Button
-                                            size="small"
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={this.handleNext}
-                                            className={classes.button}
-                                            >
-                                                {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-                                            </Button>
-
-                                        </CardActions>   
-                                        </CardContent>                                
-                                )}
-                        </Card>  
-                </Typography>
+               {/* Edit Form */}
+                <div className={classes.center}>                    
+                    <Card className={classes.card}>
+                       {content} 
+                    </Card>  
+                </div>
             </div>
       )
   }
