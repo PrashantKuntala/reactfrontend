@@ -77,7 +77,7 @@ class SampleStats extends React.Component {
     // console.log(patchURL);
     // console.log(updateArray);
 
-    // changing the state to show feedback beside the replicate 
+    // changing the public status using the state
     const newStats = this.state.stats.map(item => {
         
             if(item._id === id){
@@ -85,11 +85,11 @@ class SampleStats extends React.Component {
             }
             return item
         
-    });
+    });    
     console.log(newStats);
     
 
-    axios.patch(patchURL,updateArray).then(res =>{        
+    axios.patch(patchURL,updateArray).then(res =>{
         if(res.statusText === "OK"){
             console.log("Sucess", updateArray[0]);
             value ?  
@@ -105,7 +105,11 @@ class SampleStats extends React.Component {
             console.log(res); 
             this.props.enqueueSnackbar('ERROR : Check log in the console !', { variant: 'error', autoHideDuration: 2000, });                               
         }         
-    })
+    }).catch(error =>{
+        console.log("Unable to update the sample using PATCH");
+        console.log(error);      
+        this.props.enqueueSnackbar(error.message + " / Server Offline", { variant: 'error', autoHideDuration: 2000, });
+    });
   };
 
   handleSampleEdit = (id,value,replicateId) => () => {

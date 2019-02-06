@@ -66,7 +66,9 @@ class Post extends Component{
         post : null, // setting it to one sample 
         proteinName :  null,
         drawer :false,
-        samples : null
+        samples : null,
+        loading: true,
+        message: "Fetching Samples"
     }
 
     // you would access the route parameter here and then maybe fetch stuff
@@ -86,12 +88,19 @@ class Post extends Component{
                 this.setState({
                     post : res.data.samples[0],
                     proteinName: id,
-                    samples: res.data.samples
+                    samples: res.data.samples,
+                    loading:false
                 })
                 console.log(this.props.match);        
                 console.log(this.props.history.location);
                 // console.log(res.data);                
-            }) 
+            }).catch(error =>{
+                console.log(error);
+                this.setState({
+                    loading:true,
+                    message: error.message + " / Server Offline"
+                }) 
+            });
 
             // Setting the title of the browser tab
             document.title = id + " | YEP"
@@ -148,7 +157,16 @@ toggleDrawer = (option) => () => {
         // Then send all the samples to replicate tabs as props which uses map to create each individual
         // sections, which are themselves individual components
 
-        const post = this.state.post ? (
+        const { loading, message } = this.state;
+
+        const post = loading ? (
+            <Typography component="div" className={classes.center}>                   
+                <Typography component="p" variant="subtitle1" >
+                    {message}
+                </Typography>
+                <LinearProgress variant="query" />
+            </Typography>
+            ) : (
             <div className={classes.card}>
                
                 {/* Header Section */}
@@ -219,14 +237,6 @@ toggleDrawer = (option) => () => {
             <ReplicateTabs samples={this.state.samples}/>
             
             </div>
-        ) : (
-            // not so clear , need to use promises to show a loading and a message incase there are no public samples.
-            <Typography component="div" className={classes.center}>                   
-                    <Typography component="p" variant="subtitle1" >
-                        Fetching Samples
-                    </Typography>
-                    <LinearProgress variant="query" />
-            </Typography>
         )
         return (
             <div style={{ background: 'linear-gradient(to bottom,#e8eaf6,#e8eaf6)'}}>  

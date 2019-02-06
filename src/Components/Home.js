@@ -24,7 +24,9 @@ const styles = theme => ({
 
 class Home extends Component {
     state = {        
-        data : []
+        data : [],
+        loading : true,
+        message: "Fetching Samples"
     }
 
     componentDidMount() {
@@ -41,28 +43,34 @@ class Home extends Component {
                 // let myJsonString = JSON.stringify(values);
                 // console.log(myJsonString);
                 this.setState({
-                    data: values
+                    data: values,
+                    loading:false
                 });
-            });
-            
-       
+            }).catch(error =>{
+                console.log(error);
+                this.setState({
+                    loading:true,
+                    message: error.message + " / Server Offline"
+                })                
+            });  
     }
 
     render() {
         const { classes } = this.props;
-        const { data } = this.state;
+        const { data, loading, message } = this.state;
 
 
         // creating individuals posts
-        const samplesTable = data.length ? (   
-            <Datatable data={this.state.data}/>
-            ) : (
-                <Typography component="div" className={classes.center}>                   
-                    <Typography component="p" variant="subtitle1" >
-                        Fetching Samples
-                    </Typography>
-                    <LinearProgress variant="query" />
+        const samplesTable = loading ? (  
+            <Typography component="div" className={classes.center}>                   
+                <Typography component="p" variant="subtitle1" >
+                    {message}
                 </Typography>
+                <LinearProgress variant="query" />
+            </Typography> 
+            
+            ) : (
+                <Datatable data={data}/>
             );
 
         return (
