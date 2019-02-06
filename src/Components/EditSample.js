@@ -16,6 +16,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import TextField from '@material-ui/core/TextField';
 import CheckIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
+import UpdateIcon from '@material-ui/icons/Sync';
 
 // retrieve app configuration settings
 import Config from '../Config';
@@ -42,8 +43,7 @@ const styles = theme => ({
       },
       button: {
         marginRight: theme.spacing.unit,
-        marginBottom: 0,
-        float:"right"
+        marginBottom: 0,       
       },
       instructions: {
         marginTop: theme.spacing.unit,
@@ -59,6 +59,11 @@ const styles = theme => ({
         fontSize: 30,
         color: "#dd2c00",      
         float: "left"
+      },
+      updateIcon:{
+        fontSize: 28,
+        marginRight: theme.spacing.unit,
+        float: "right"
       } 
     
 });
@@ -204,9 +209,13 @@ class EditSample extends React.Component {
      <CardContent>                        
         <Typography variant='h5' gutterBottom>
             Sample Editor
+            <Tooltip title="Sync Data" aria-label="sync">           
+                <UpdateIcon className={classes.updateIcon} color="primary"/>           
+            </Tooltip> 
         </Typography>                            
         <Divider/>
-        <br/>
+        <br/>        
+        
         <Grid container spacing={16} direction="row" 
             justify="flex-start" className={classes.mainContainer}> 
             <Grid item>
@@ -410,16 +419,25 @@ class EditSample extends React.Component {
         <br/>
         <Divider/> 
         <br/>
-        <Button
-            variant="contained"
-            color="primary"                        
-            className={classes.button}
-            onClick={this.handleSubmit}
-            >
-            Submit
-        </Button>
-    </CardContent>
-                        
+        <CardActions>            
+            <Button
+                variant="raised"
+                color="primary"                        
+                className={classes.button}
+                onClick={this.handleSubmit}
+                >
+                Submit
+            </Button>
+            <Button
+                variant="raised"
+                color="secondary"                        
+                className={classes.button}
+                onClick={this.goBack}
+                >
+                Cancel
+            </Button>
+        </CardActions>        
+    </CardContent>                    
 
 
       return (
