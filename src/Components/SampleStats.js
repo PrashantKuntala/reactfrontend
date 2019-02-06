@@ -146,16 +146,27 @@ class SampleStats extends React.Component {
                                     {item.alias}   
                                 </Typography>
                             </Grid>
-                            <Grid item>   
-                                <Tooltip title="Edit Sample" aria-label="Edit Sample">
-                                    <Link to={"/edit/"+ item._id}>
-                                    <EditIcon color="primary"/> 
-                                    </Link>                                    
-                                </Tooltip>                            
-                                <Tooltip title="Publish Sample" aria-label="Publish Sample">
-                                    {sampleStatus}
-                                </Tooltip>                                    
-                            </Grid>                            
+
+                            {/* Show sample edit, publish option if the site is private */}
+                            {
+                                Config.settings.siteAvailability === "private" ? (
+                                <Grid item>   
+                                    <Tooltip title="Edit Sample" aria-label="Edit Sample">
+                                        <Link to={"/edit/"+ item._id}>
+                                        <EditIcon color="primary"/> 
+                                        </Link>                                    
+                                    </Tooltip>                            
+                                    <Tooltip title="Publish Sample" aria-label="Publish Sample">
+                                        {sampleStatus}
+                                    </Tooltip>                                    
+                                </Grid>  
+                                ) : (
+                                    <Grid item>                                       
+                                    </Grid>
+                                    )
+                            
+                            }
+                                                      
                         </Grid> 
                            {/* <Typography component="span" variant="subtitle1" gutterBottom>
                            {item.runId} / {item.sampleId} / epitopeTag : {item.epitopeTag} / {item.antibody} 
