@@ -178,7 +178,10 @@ componentDidMount(){
             suggestions: suggestions
           });
           
-      });      
+      });  
+      
+      // Setting the title of the browser tab
+      document.title = "Yeast Epigenome Project | YEP"
 }
 
   handleChange = name => value => {
