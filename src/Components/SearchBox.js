@@ -159,7 +159,10 @@ componentDidMount(){
   // creating the url
   let dataURL = Config.settings.apiURL + Config.settings.samplesEndpoint ;
 
-  // api call
+  // creating the aliasURL
+  let aliasURL = Config.settings.apiURL + Config.settings.aliasesEndpoint + "/" + Config.settings.siteAvailability ;
+
+  // api call to retrieve all data
   axios.get(dataURL)
       .then(res =>{
                   
@@ -170,12 +173,35 @@ componentDidMount(){
          
           // creating the suggestions on a sorted list
           var suggestions = unique.sort().map(suggestion => ({
-            value: suggestion ,
+            category: "standardGeneName",
+            value: suggestion,
             label: suggestion,
           }));
-         
-          this.setState({
-            suggestions: suggestions
+          
+          // to store alias as suggestions
+          let aliasSuggestions = []
+
+          // making an api call to aliases endpoint
+          axios.get(aliasURL)
+          .then(res =>{            
+            let aliasData = res.data.aliases;
+
+            // creating the suggestions
+            for(let alias in res.data.aliases){
+              let temp = {
+                category: "alias",
+                value : alias + " / "+ aliasData[alias],
+                label: alias 
+              }
+              aliasSuggestions.push(temp)     
+            }
+            // console.log(aliasSuggestions);
+
+            // set the state with all suggestions
+            this.setState({
+              suggestions: suggestions.concat(aliasSuggestions)
+            });
+
           });
           
       });  
@@ -194,11 +220,16 @@ componentDidMount(){
         console.log(value);
       }
       else{
-        console.log(value);
+        // Resolve the sample page based on category of the suggestions
+        if (value.category === "standardGeneName"){
+          let url = Config.settings.appURL + "/" + value.label.split(' / ')[0];
+          window.open(url, '_blank');
+        }
+        else{        
+         let url = Config.settings.appURL + "/" + value.value.split(' / ')[1];
+          window.open(url, '_blank');
+        }
         
-        let url = Config.settings.appURL + "/" + value.label.split(' / ')[0];
-        window.open(url, '_blank');
-        // win.focus();
       }
    
   };

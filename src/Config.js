@@ -13,7 +13,8 @@ const settings = {
     "apiURL" : "http://172.29.0.74:8080",
     "appURL" : "http://172.29.0.74:3000",
     "siteAvailability" : "private",
-    "samplesEndpoint" : "/reviewSamples" 
+    "samplesEndpoint" : "/reviewSamples",
+    "aliasesEndpoint" : "/aliases" 
 }
 
 module.exports = {
