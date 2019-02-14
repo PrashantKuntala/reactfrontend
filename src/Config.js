@@ -14,7 +14,8 @@ const settings = {
     "appURL" : "http://172.29.0.74:3000",
     "siteAvailability" : "private",
     "samplesEndpoint" : "/reviewSamples",
-    "aliasesEndpoint" : "/aliases" 
+    "aliasesEndpoint" : "/aliases",
+    "sgdEndpoint" : "/sgdInfo" 
 }
 
 module.exports = {

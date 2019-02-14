@@ -16,7 +16,6 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import TextField from '@material-ui/core/TextField';
 import CheckIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
-import UpdateIcon from '@material-ui/icons/Sync';
 
 // retrieve app configuration settings
 import Config from '../Config';
@@ -73,6 +72,7 @@ class EditSample extends React.Component {
     state = {
         changesSubmitted : false,
         updateStatus : "",
+        helperText: "",
         editFields: {
             alias : '',
             antibody: '',
@@ -103,7 +103,7 @@ class EditSample extends React.Component {
         axios.get(dataURL)
             .then(res =>{
                 console.log("SampleData");                
-                console.log(res.data.samples);
+                console.log(res.data.samples[0]);
 
                 // creating an object that will be the fields in the form to edit.
                 const editData = res.data.samples.map(sample => {
@@ -137,13 +137,63 @@ class EditSample extends React.Component {
         
     // function using the browser's history props from reactrouter
     goBack = () => {
-        this.props.history.goBack();
+        this.props.history.push('/');
     }
 
-    handleSubmit = () => {
+    // handle sync data based on Protein name, only works if it is a standard Genename
+    handleSync = (editFields) => () => {
+
+        // looking up in the entire SGD data
+        let dataURL = Config.settings.apiURL + Config.settings.sgdEndpoint + "/" + editFields.standardGeneName
+        console.log(dataURL);
         
-        // console.log('Submitting below values');        
-        // console.log(this.state.editFields);
+        axios.get(dataURL)
+            .then(res =>{
+               
+                // creating an object that will be the fields in the form to edit.
+                const editData = res.data.sgdInfo.map(sample => {
+                    return {
+                        alias :sample.alias, 
+                        description: sample.description,                        
+                        featureName:sample.featureName,                        
+                        sgdId:sample.sgdId,
+                        standardGeneName : sample.standardGeneName,
+                        commonName:sample.commonName                      
+                    }
+                });
+
+                // changing only relevant values, we don't want to change sampleId
+                // and other crucial information using autosync
+                for(var key in editData[0]){
+                    editFields[key] = editData[0][key]
+                }
+                
+                console.log("sync Data");
+                console.log(editFields);
+                
+                
+                this.setState({
+                    editFields: editFields,
+                    helperText: ""
+                });    
+            }).catch(error => {
+                console.log(error);
+                this.setState({
+                    helperText: "Use SGD Standard Names"
+                });              
+            }) 
+
+            // Setting the title of the browser tab
+            document.title = " Edit Sample | YEP"
+    }
+
+
+    handleSubmit = () => {
+    
+     // Submit the values if you dont have any errors
+      if(this.state.helperText.length > 0 ){
+          alert("Your errors will be overwritten");
+      }      
 
         let id = this.props.match.params.sample_id;
         var patchURL = Config.settings.apiURL + Config.settings.samplesEndpoint + "/" +id;
@@ -181,7 +231,10 @@ class EditSample extends React.Component {
                     updateStatus: "Failed"
                 });                                             
             }         
-        })        
+        })
+      
+
+                
       }
 
     handleChange = property => event => {
@@ -189,7 +242,7 @@ class EditSample extends React.Component {
         //  retrieve the existing object
         const editFields = this.state.editFields;
         editFields[property] = event.target.value;
-
+        
         // update the changes to respective fields
         this.setState({
             editFields: editFields
@@ -199,7 +252,7 @@ class EditSample extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const {editFields} = this.state;
+    const {editFields, helperText} = this.state;
     
     const content = this.state.changesSubmitted ? 
     
@@ -209,9 +262,6 @@ class EditSample extends React.Component {
      <CardContent>                        
         <Typography variant='h5' gutterBottom>
             Sample Editor
-            <Tooltip title="Sync Data" aria-label="sync">           
-                <UpdateIcon className={classes.updateIcon} color="primary"/>           
-            </Tooltip> 
         </Typography>                            
         <Divider/>
         <br/>        
@@ -223,7 +273,8 @@ class EditSample extends React.Component {
                     id="standardGeneName"                 
                     label="Protein Name"                   
                     value={editFields.standardGeneName}
-                    onChange={this.handleChange('standardGeneName')} 
+                    onChange={this.handleChange('standardGeneName')}
+                    onBlur={this.handleSync(editFields)} 
                     type="text"
                     className={classes.textField}
                     InputLabelProps={{
@@ -231,6 +282,8 @@ class EditSample extends React.Component {
                     }}
                     margin="normal"
                     variant="outlined"
+                    error={helperText.length === 0 ? false : true }
+                    helperText={helperText}
                     />  
             </Grid>
             <Grid item>
@@ -367,22 +420,7 @@ class EditSample extends React.Component {
                     margin="normal"        
                     variant="outlined"
                     />
-            </Grid>  
-            <Grid item>
-                <TextField
-                    id="sgdId"                 
-                    label="SGD ID"
-                    className={classes.textField}
-                    value={editFields.sgdId}
-                    type="text"
-                    onChange={this.handleChange('sgdId')} 
-                    InputLabelProps={{
-                        shrink: true,
-                    }} 
-                    margin="normal"        
-                    variant="outlined"
-                    />
-            </Grid>                                    
+            </Grid>                                               
         </Grid> 
 
         <TextField   
@@ -421,7 +459,7 @@ class EditSample extends React.Component {
         <br/>
         <CardActions>            
             <Button
-                variant="raised"
+                variant="contained"
                 color="primary"                        
                 className={classes.button}
                 onClick={this.handleSubmit}
@@ -429,7 +467,7 @@ class EditSample extends React.Component {
                 Submit
             </Button>
             <Button
-                variant="raised"
+                variant="contained"
                 color="secondary"                        
                 className={classes.button}
                 onClick={this.goBack}

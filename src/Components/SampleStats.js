@@ -112,11 +112,7 @@ class SampleStats extends React.Component {
     });
   };
 
-  handleSampleEdit = (id,value,replicateId) => () => {
-    console.log("Handling the edit click for sample with id " + id);
-    
-  };
-  
+   
 
   render() {
     const { classes } = this.props;
