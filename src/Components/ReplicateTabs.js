@@ -16,6 +16,9 @@ import OtherFeaturesSection from './OtherFeaturesSection';
 import MotifSection from './MotifSection';
 import { Grid } from '@material-ui/core';
 
+// retrieve app configuration settings
+import Config from '../Config';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -86,13 +89,20 @@ class ReplicateTabs extends React.Component {
   
      
       i = i + 1;
-      let tabname = <Typography>
+      let tabname = Config.settings.siteAvailability === "private" ? 
+      (<Typography variant="body1">
         {badge} 
-        { "Replicate "+ i.toString()}                  
-      </Typography>;
+        {sample.sampleId}                  
+      </Typography>) : 
+      (<Typography>
+        {badge} 
+        {"Sample "+ i.toString()}                  
+      </Typography>);
+
       return (
         <Tab label={tabname} key={i} />
       )
+
     });
     
 

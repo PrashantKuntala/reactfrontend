@@ -134,7 +134,7 @@ class SampleStats extends React.Component {
                         <Grid container spacing={8} direction="row" wrap="nowrap" 
                         justify="space-between" className={classes.mainContainer}> 
                             <Grid item>
-                                {" Replicate " + id}
+                                {" Sample " + id}
                                 <Typography variant="overline"> 
                                     {item.standardGeneName} / {item.featureName} 
                                 </Typography>
